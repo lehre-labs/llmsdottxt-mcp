@@ -9,13 +9,12 @@ import httpx
 import structlog
 
 from llmstxt_mcp import http
+from llmstxt_mcp.config.constants import GO_FORGE_HOSTS
 from llmstxt_mcp.models import DocsInfo, DocsUrlSource, Ecosystem
 from llmstxt_mcp.resolvers.base import BaseResolver
 
 logger = structlog.get_logger(__name__)
 
-# Hosts where the module path is also the repository URL.
-_REPO_HOSTS = ("github.com", "gitlab.com", "bitbucket.org")
 _MAJOR_SUFFIX = re.compile(r"/v\d+$")
 
 
@@ -55,6 +54,6 @@ def _repo_url(module: str) -> str | None:
     """Derive an https repo URL when the module path is hosted on a known forge."""
     path = _MAJOR_SUFFIX.sub("", module)
     parts = path.split("/")
-    if len(parts) >= 3 and parts[0] in _REPO_HOSTS:
+    if len(parts) >= 3 and parts[0] in GO_FORGE_HOSTS:
         return f"https://{'/'.join(parts[:3])}"
     return None

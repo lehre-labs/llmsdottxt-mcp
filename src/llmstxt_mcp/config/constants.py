@@ -20,3 +20,16 @@ except PackageNotFoundError:  # pragma: no cover - editable installs without met
     _VERSION = "0.0.0"
 
 USER_AGENT = f"llmstxt-mcp/{_VERSION}"
+
+# Forge hosts where Go module paths follow host/owner/repo and are also valid
+# repository URLs. Non-exhaustive — self-hosted instances will still be missed.
+GO_FORGE_HOSTS: tuple[str, ...] = (
+    "github.com",
+    "gitlab.com",
+    "bitbucket.org",
+    "codeberg.org",
+    "git.sr.ht",
+    "hg.sr.ht",
+    "gitea.com",
+    "go.googlesource.com",
+)
