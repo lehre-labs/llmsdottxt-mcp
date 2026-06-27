@@ -1,0 +1,13 @@
+[package]
+name = "consumer-app"
+version = "0.1.0"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+serde = "1.0"
+axum = "0.7"
+reqwest = "0.12"
+clap = "4.5"
+anyhow = "1.0"
+sqlx = "0.7"
+tracing = "0.1"
