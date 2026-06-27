@@ -11,7 +11,7 @@ from rich.console import Console
 import typer
 
 from llmstxt_mcp import index, pipeline
-from llmstxt_mcp.config import configure_logging, settings
+from llmstxt_mcp.config import DEFAULT_MCP_HOST, DEFAULT_MCP_PORT, configure_logging, settings
 from llmstxt_mcp.models import IndexMeta, PackageSummary, Transport
 
 if TYPE_CHECKING:
@@ -68,8 +68,8 @@ def scan(
 @app.command()
 def serve(
     transport: Transport = Transport.stdio,
-    host: str = "127.0.0.1",
-    port: int = 8000,
+    host: str = DEFAULT_MCP_HOST,
+    port: int = DEFAULT_MCP_PORT,
 ) -> None:
     """Start the MCP server."""
     configure_logging(settings.log_level)

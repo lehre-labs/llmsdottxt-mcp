@@ -8,6 +8,7 @@ import httpx
 import pytest
 
 from llmstxt_mcp import http
+from llmstxt_mcp.config import MAX_RETRY_AFTER_SECONDS
 from llmstxt_mcp.errors import BlockedByChallengeError
 from llmstxt_mcp.http import build_client
 
@@ -120,7 +121,7 @@ def test_retry_after_seconds_parses_and_caps() -> None:
         return httpx.Response(429, headers={"retry-after": value})
 
     assert http._retry_after_seconds(resp("3")) == 3.0
-    assert http._retry_after_seconds(resp("999")) == http._MAX_RETRY_AFTER
+    assert http._retry_after_seconds(resp("999")) == MAX_RETRY_AFTER_SECONDS
     # HTTP-date form is not numeric — fall back to exponential backoff.
     assert http._retry_after_seconds(resp("Wed, 21 Oct 2026 07:28:00 GMT")) is None
     assert http._retry_after_seconds(httpx.Response(429)) is None

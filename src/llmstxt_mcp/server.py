@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastmcp import FastMCP
 
+from llmstxt_mcp.config import DEFAULT_MCP_HOST, DEFAULT_MCP_PORT
 from llmstxt_mcp.models import Transport
 from llmstxt_mcp.prompts import register_prompts
 from llmstxt_mcp.resources import register_resources
@@ -31,7 +32,7 @@ mcp = create_server()
 
 
 def serve(
-    transport: Transport = Transport.stdio, host: str = "127.0.0.1", port: int = 8000
+    transport: Transport = Transport.stdio, host: str = DEFAULT_MCP_HOST, port: int = DEFAULT_MCP_PORT
 ) -> None:
     """Run the MCP server with the chosen transport."""
     mcp.run(transport=transport.to_fastmcp(), host=host, port=port)

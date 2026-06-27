@@ -12,7 +12,14 @@ import httpx
 import structlog
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
-from llmstxt_mcp.config import USER_AGENT, settings
+from llmstxt_mcp.config import (
+    BLOCKING_HTTP_STATUSES,
+    MAX_RETRY_AFTER_SECONDS,
+    RETRYABLE_HTTP_STATUSES,
+    USER_AGENT,
+    WAF_HEADER_FINGERPRINTS,
+    settings,
+)
 from llmstxt_mcp.errors import BlockedByChallengeError
 
 if TYPE_CHECKING:
@@ -23,25 +30,6 @@ if TYPE_CHECKING:
 logger = structlog.get_logger(__name__)
 
 _limiters: WeakKeyDictionary[AbstractEventLoop, AsyncLimiter] = WeakKeyDictionary()
-
-# Statuses worth retrying: 5xx server errors plus 429/503 back-pressure signals.
-_RETRYABLE_STATUSES = frozenset({429, 503})
-# Cap how long a server-supplied Retry-After can stall us.
-_MAX_RETRY_AFTER = 10.0
-# Statuses a bot wall uses to refuse a request.
-_BLOCKING_STATUSES = frozenset({403, 429, 503})
-
-# Header fingerprints for anti-bot/WAF vendors that front docs hosts. A headless
-# client cannot pass these, so we skip the host instead of burning retries. Each
-# entry is matched only on a blocking status, except Cloudflare's ``cf-mitigated``
-# which is authoritative (it is set ONLY when CF actively interfered, so it never
-# fires on a genuine origin 429 — those still retry normally).
-_WAF_HEADER_FINGERPRINTS: tuple[tuple[str, str], ...] = (
-    ("x-datadome", "DataDome"),
-    ("x-iinfo", "Imperva Incapsula"),
-    ("x-amzn-waf-action", "AWS WAF"),
-    ("x-sucuri-id", "Sucuri"),
-)
 
 
 class _TransientHTTPError(Exception):
@@ -63,9 +51,9 @@ def _challenge_vendor(response: httpx.Response) -> str | None:
     # Cloudflare: authoritative, status-independent.
     if response.headers.get("cf-mitigated", "").lower() not in {"", "ok", "response"}:
         return "Cloudflare"
-    if response.status_code not in _BLOCKING_STATUSES:
+    if response.status_code not in BLOCKING_HTTP_STATUSES:
         return None
-    for header, vendor in _WAF_HEADER_FINGERPRINTS:
+    for header, vendor in WAF_HEADER_FINGERPRINTS:
         if header in response.headers:
             return vendor
     # Akamai / Sucuri identify via the Server banner on a block.
@@ -83,7 +71,7 @@ def _retry_after_seconds(response: httpx.Response) -> float | None:
     if not raw:
         return None
     try:
-        return min(float(raw), _MAX_RETRY_AFTER)
+        return min(float(raw), MAX_RETRY_AFTER_SECONDS)
     except ValueError:
         return None  # HTTP-date form — fall back to exponential backoff
 
@@ -146,7 +134,7 @@ async def get(
     vendor = _challenge_vendor(response)
     if vendor is not None:
         raise BlockedByChallengeError(url, response.status_code, vendor=vendor)
-    if response.status_code >= 500 or response.status_code in _RETRYABLE_STATUSES:
+    if response.status_code >= 500 or response.status_code in RETRYABLE_HTTP_STATUSES:
         raise _TransientHTTPError(response)
     return response
 

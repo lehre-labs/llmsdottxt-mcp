@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, override
 
 import structlog
 
+from llmstxt_mcp.config import PYTHON_SKIP_PACKAGE_NAMES
 from llmstxt_mcp.models import Dependency, Ecosystem
 from llmstxt_mcp.scanners.base import BaseScanner
 
@@ -15,9 +16,6 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 logger = structlog.get_logger(__name__)
-
-# Names that never have useful third-party docs.
-_SKIP_NAMES = {"python", "pip", "setuptools", "wheel"}
 
 
 def _clean_dep_name(raw: str) -> str:
@@ -35,7 +33,7 @@ def _extract_version_spec(raw: str) -> str | None:
 def _make_dep(raw: str) -> Dependency | None:
     """Build a Dependency from a raw spec, or None if it should be skipped."""
     name = _clean_dep_name(raw)
-    if not name or name.lower() in _SKIP_NAMES:
+    if not name or name.lower() in PYTHON_SKIP_PACKAGE_NAMES:
         return None
     return Dependency(
         name=name,
@@ -77,7 +75,7 @@ class PyprojectTomlScanner(BaseScanner):
         poetry = data.get("tool", {}).get("poetry", {})
         for group in ("dependencies", "dev-dependencies"):
             for name, spec in poetry.get(group, {}).items():
-                if isinstance(spec, str) and name.lower() not in _SKIP_NAMES:
+                if isinstance(spec, str) and name.lower() not in PYTHON_SKIP_PACKAGE_NAMES:
                     deps.append(
                         Dependency(
                             name=name,
