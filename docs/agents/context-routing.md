@@ -13,15 +13,15 @@ Read the narrowest context that explains the code you are changing.
 
 | Package | Local files |
 |---|---|
-| `src/llmstxt_mcp/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/models/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/config/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/scanners/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/resolvers/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/platforms/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/tools/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/resources/` | `AGENTS.md`, `CONTEXT.md` |
-| `src/llmstxt_mcp/prompts/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/models/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/config/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/scanners/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/resolvers/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/platforms/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/tools/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/resources/` | `AGENTS.md`, `CONTEXT.md` |
+| `src/llmsdottxt_mcp/prompts/` | `AGENTS.md`, `CONTEXT.md` |
 
 ## Focused Notes
 

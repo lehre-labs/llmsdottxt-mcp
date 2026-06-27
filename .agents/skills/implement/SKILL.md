@@ -26,7 +26,7 @@ Use this when the user has chosen a scoped change and wants it built.
 6. Run targeted checks as you work.
 7. Run the final relevant quality gate.
 
-## llmstxt-mcp Guardrails
+## llmsdottxt-mcp Guardrails
 
 - Do not expose raw low-level registry wrappers as new public tools unless explicitly requested.
 - Return structured Pydantic models for tool-facing data.

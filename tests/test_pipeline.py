@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from llmstxt_mcp import index, pipeline
-from llmstxt_mcp.errors import PackageNotIndexedError
+from llmsdottxt_mcp import index, pipeline
+from llmsdottxt_mcp.errors import PackageNotIndexedError
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -180,7 +180,7 @@ async def test_get_full_text_fetches_on_demand(
     # Clear the cache to force a fetch on demand.
     await index.clear_all()
     # Re-index with just the entry, no cache.
-    from llmstxt_mcp.models import (
+    from llmsdottxt_mcp.models import (
         Ecosystem,
         IndexEntry,
         Link,

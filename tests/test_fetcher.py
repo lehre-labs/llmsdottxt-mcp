@@ -4,9 +4,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from llmstxt_mcp.fetcher import _shares_repo_host, fetch_full_text, fetch_llms_txt, parse_llms_txt
-from llmstxt_mcp.http import build_client
-from llmstxt_mcp.models import DocsInfo, Ecosystem
+from llmsdottxt_mcp.fetcher import (
+    _shares_repo_host,
+    fetch_full_text,
+    fetch_llms_txt,
+    parse_llms_txt,
+)
+from llmsdottxt_mcp.http import build_client
+from llmsdottxt_mcp.models import DocsInfo, Ecosystem
 
 if TYPE_CHECKING:
     import pytest
@@ -105,7 +110,7 @@ def test_shares_repo_host_covers_any_forge() -> None:
 async def test_fetch_full_text_truncates(
     httpx_mock: HTTPXMock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from llmstxt_mcp.config import settings
+    from llmsdottxt_mcp.config import settings
 
     monkeypatch.setattr(settings, "max_full_text_size", 10)
     httpx_mock.add_response(url="https://docs.example.com/llms-full.txt", text="x" * 500)

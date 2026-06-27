@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from llmstxt_mcp.models import Ecosystem
-from llmstxt_mcp.scanners import detect_ecosystem
-from llmstxt_mcp.scanners.crates import CargoTomlScanner
-from llmstxt_mcp.scanners.go import GoModScanner
-from llmstxt_mcp.scanners.npm import PackageJsonScanner
-from llmstxt_mcp.scanners.python import PyprojectTomlScanner, RequirementsTxtScanner
+from llmsdottxt_mcp.models import Ecosystem
+from llmsdottxt_mcp.scanners import detect_ecosystem
+from llmsdottxt_mcp.scanners.crates import CargoTomlScanner
+from llmsdottxt_mcp.scanners.go import GoModScanner
+from llmsdottxt_mcp.scanners.npm import PackageJsonScanner
+from llmsdottxt_mcp.scanners.python import PyprojectTomlScanner, RequirementsTxtScanner
 
 if TYPE_CHECKING:
     from pathlib import Path

@@ -19,7 +19,7 @@ Good loops for this repo:
 - A focused pytest reproducing llms.txt parsing.
 - A `pytest-httpx` test for a docs-host fetch.
 - A FastMCP in-memory client test for tool/resource behavior.
-- A CLI test for `llmstxt-mcp doctor`, `ping`, `inspect`, or `serve`.
+- A CLI test for `llmsdottxt-mcp doctor`, `ping`, `inspect`, or `serve`.
 - A mocked docs-host smoke test profile.
 
 Live-network tests require explicit opt-in and must avoid private output.

@@ -8,8 +8,8 @@ from unittest import mock
 from fastmcp.exceptions import ToolError
 import pytest
 
-from llmstxt_mcp import index
-from llmstxt_mcp.models import (
+from llmsdottxt_mcp import index
+from llmsdottxt_mcp.models import (
     BrowseToc,
     Ecosystem,
     IndexEntry,
@@ -18,8 +18,8 @@ from llmstxt_mcp.models import (
     Section,
     Transport,
 )
-from llmstxt_mcp.server import create_server
-from llmstxt_mcp.tools import docs
+from llmsdottxt_mcp.server import create_server
+from llmsdottxt_mcp.tools import docs
 
 
 def _entry(package: str, title: str | None = None) -> IndexEntry:
@@ -52,7 +52,7 @@ def _entry(package: str, title: str | None = None) -> IndexEntry:
 
 def test_create_server_registers_everything() -> None:
     server = create_server()
-    assert server.name == "llmstxt-mcp"
+    assert server.name == "llmsdottxt-mcp"
 
 
 # ── status ───────────────────────────────────────────────────────────
@@ -158,33 +158,33 @@ async def test_index_deps_returns_scan_report(tmp_path: Path) -> None:
 
 
 def test_serve_defaults_to_stdio() -> None:
-    from llmstxt_mcp.server import serve as server_serve
+    from llmsdottxt_mcp.server import serve as server_serve
 
-    with mock.patch("llmstxt_mcp.server.mcp.run") as run_mock:
+    with mock.patch("llmsdottxt_mcp.server.mcp.run") as run_mock:
         server_serve()
         run_mock.assert_called_once_with(transport="stdio", host="127.0.0.1", port=8000)
 
 
 def test_serve_sse_transport() -> None:
-    from llmstxt_mcp.server import serve as server_serve
+    from llmsdottxt_mcp.server import serve as server_serve
 
-    with mock.patch("llmstxt_mcp.server.mcp.run") as run_mock:
+    with mock.patch("llmsdottxt_mcp.server.mcp.run") as run_mock:
         server_serve(transport=Transport.sse)
         run_mock.assert_called_once_with(transport="sse", host="127.0.0.1", port=8000)
 
 
 def test_serve_http_transport() -> None:
-    from llmstxt_mcp.server import serve as server_serve
+    from llmsdottxt_mcp.server import serve as server_serve
 
-    with mock.patch("llmstxt_mcp.server.mcp.run") as run_mock:
+    with mock.patch("llmsdottxt_mcp.server.mcp.run") as run_mock:
         server_serve(transport=Transport.http)
         run_mock.assert_called_once_with(transport="streamable-http", host="127.0.0.1", port=8000)
 
 
 def test_serve_custom_host_port() -> None:
-    from llmstxt_mcp.server import serve as server_serve
+    from llmsdottxt_mcp.server import serve as server_serve
 
-    with mock.patch("llmstxt_mcp.server.mcp.run") as run_mock:
+    with mock.patch("llmsdottxt_mcp.server.mcp.run") as run_mock:
         server_serve(transport=Transport.http, host="0.0.0.0", port=3000)
         run_mock.assert_called_once_with(transport="streamable-http", host="0.0.0.0", port=3000)
 

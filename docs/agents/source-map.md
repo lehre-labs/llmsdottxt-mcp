@@ -27,4 +27,4 @@ Use this when a dependency, CLI, or protocol detail may have changed. Prefer `ll
 ## Fetching
 
 - Prefer `llms.txt` when present; for Astral docs use explicit `index.md` paths from the index.
-- This project *is* an llms.txt client — dogfood it: `uvx llmstxt-mcp scan` then the `search` tool.
+- This project *is* an llms.txt client — dogfood it: `uvx llmsdottxt-mcp scan` then the `search` tool.

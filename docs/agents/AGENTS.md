@@ -1,6 +1,6 @@
 # Agent Documentation Guide
 
-Agent-facing docs for `llmstxt-mcp`. Keep them compact, source-linked, and optimized for coding agents that need enough context to make correct changes without loading the whole internet.
+Agent-facing docs for `llmsdottxt-mcp`. Keep them compact, source-linked, and optimized for coding agents that need enough context to make correct changes without loading the whole internet.
 
 ## Source Order
 

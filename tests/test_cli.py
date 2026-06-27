@@ -13,9 +13,9 @@ from typing import TYPE_CHECKING
 
 from typer.testing import CliRunner
 
-from llmstxt_mcp import index, pipeline
-from llmstxt_mcp.cli import app
-from llmstxt_mcp.models import Ecosystem, IndexEntry, ParsedLlmsTxt, Platform, ScanReport
+from llmsdottxt_mcp import index, pipeline
+from llmsdottxt_mcp.cli import app
+from llmsdottxt_mcp.models import Ecosystem, IndexEntry, ParsedLlmsTxt, Platform, ScanReport
 
 if TYPE_CHECKING:
     import pytest

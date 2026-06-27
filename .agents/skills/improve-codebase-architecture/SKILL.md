@@ -30,14 +30,14 @@ For each candidate, include:
 - Risk and migration shape.
 - Recommendation strength: `strong`, `worth exploring`, or `speculative`.
 
-## llmstxt-mcp Review Targets
+## llmsdottxt-mcp Review Targets
 
-- `llmstxt_mcp.http`: transport, retries, rate limits, feature detection, and cache seams.
-- `llmstxt_mcp.api`: parsing and domain behavior.
-- `llmstxt_mcp.tools`: thin FastMCP wrappers and stable tool signatures.
-- `llmstxt_mcp.resources`: read-only context serialization.
-- `llmstxt_mcp.models`: response model boundaries.
-- `llmstxt_mcp.cli`: Typer command composition.
+- `llmsdottxt_mcp.http`: transport, retries, rate limits, feature detection, and cache seams.
+- `llmsdottxt_mcp.api`: parsing and domain behavior.
+- `llmsdottxt_mcp.tools`: thin FastMCP wrappers and stable tool signatures.
+- `llmsdottxt_mcp.resources`: read-only context serialization.
+- `llmsdottxt_mcp.models`: response model boundaries.
+- `llmsdottxt_mcp.cli`: Typer command composition.
 
 ## ADR Handoff
 

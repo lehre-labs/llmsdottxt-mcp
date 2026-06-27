@@ -948,7 +948,7 @@ wheels = [
 ]
 
 [[package]]
-name = "llmstxt-mcp"
+name = "llmsdottxt-mcp"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

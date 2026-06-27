@@ -7,10 +7,10 @@ from typing import TYPE_CHECKING
 import httpx
 import pytest
 
-from llmstxt_mcp import http
-from llmstxt_mcp.config import MAX_RETRY_AFTER_SECONDS
-from llmstxt_mcp.errors import BlockedByChallengeError
-from llmstxt_mcp.http import build_client
+from llmsdottxt_mcp import http
+from llmsdottxt_mcp.config import MAX_RETRY_AFTER_SECONDS
+from llmsdottxt_mcp.errors import BlockedByChallengeError
+from llmsdottxt_mcp.http import build_client
 
 if TYPE_CHECKING:
     from pytest_httpx import HTTPXMock

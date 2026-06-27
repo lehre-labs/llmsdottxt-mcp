@@ -1,5 +1,5 @@
 [project]
-name = "llmstxt-mcp"
+name = "llmsdottxt-mcp"
 version = "0.1.0"
 description = "Auto-discover llms.txt from your deps. Docs your agent can read. Zero setup."
 readme = "README.md"
@@ -33,12 +33,12 @@ dependencies = [
 ]
 
 [project.scripts]
-llmstxt-mcp = "llmstxt_mcp.cli:main"
+llmsdottxt-mcp = "llmsdottxt_mcp.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/lehre-labs/llmstxt-mcp"
-Issues = "https://github.com/lehre-labs/llmstxt-mcp/issues"
-Source = "https://github.com/lehre-labs/llmstxt-mcp"
+Homepage = "https://github.com/lehre-labs/llmsdottxt-mcp"
+Issues = "https://github.com/lehre-labs/llmsdottxt-mcp/issues"
+Source = "https://github.com/lehre-labs/llmsdottxt-mcp"
 
 [dependency-groups]
 dev = [
@@ -117,20 +117,20 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["N", "F401"]
-"src/llmstxt_mcp/cli.py" = ["T20", "PLC0415"]   # rich/typer output; lazy server import
+"src/llmsdottxt_mcp/cli.py" = ["T20", "PLC0415"]   # rich/typer output; lazy server import
 # Pydantic and FastMCP resolve annotations at runtime, so field/return types
 # cannot live in a TYPE_CHECKING block — disable flake8-type-checking there.
-"src/llmstxt_mcp/models/*.py" = ["TC001", "TC002", "TC003"]
-"src/llmstxt_mcp/config/settings.py" = ["TC001"]
-"src/llmstxt_mcp/tools/*.py" = ["TC001", "TC002", "TC003"]
-"src/llmstxt_mcp/resources/*.py" = ["TC001", "TC002", "TC003"]
+"src/llmsdottxt_mcp/models/*.py" = ["TC001", "TC002", "TC003"]
+"src/llmsdottxt_mcp/config/settings.py" = ["TC001"]
+"src/llmsdottxt_mcp/tools/*.py" = ["TC001", "TC002", "TC003"]
+"src/llmsdottxt_mcp/resources/*.py" = ["TC001", "TC002", "TC003"]
 "tests/*.py" = ["T20", "PLR2004", "PLR0913", "PT009", "PLC0415"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 12
 
 [tool.ruff.lint.isort]
-known-first-party = ["llmstxt_mcp"]
+known-first-party = ["llmsdottxt_mcp"]
 force-sort-within-sections = true
 combine-as-imports = true
 
@@ -151,7 +151,7 @@ asyncio_mode = "auto"
 addopts = [
     "--strict-markers",
     "--tb=short",
-    "--cov=llmstxt_mcp",
+    "--cov=llmsdottxt_mcp",
     "--cov-report=term-missing",
 ]
 markers = [
@@ -162,7 +162,7 @@ markers = [
 branch = true
 
 [tool.coverage.report]
-fail_under = 60
+fail_under = 90
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
@@ -198,21 +198,21 @@ typeCheckingMode = "standard"
 # =============================================================================
 
 [tool.importlinter]
-root_package = "llmstxt_mcp"
+root_package = "llmsdottxt_mcp"
 exclude_type_checking_imports = true
 
 [[tool.importlinter.contracts]]
-name = "llmstxt-mcp layered architecture"
+name = "llmsdottxt-mcp layered architecture"
 type = "layers"
 layers = [
-    "llmstxt_mcp.cli",
-    "llmstxt_mcp.server",
-    "llmstxt_mcp.tools : llmstxt_mcp.resources : llmstxt_mcp.prompts",
-    "llmstxt_mcp.pipeline",
-    "llmstxt_mcp.scanners : llmstxt_mcp.resolvers : llmstxt_mcp.platforms : llmstxt_mcp.fetcher : llmstxt_mcp.index",
-    "llmstxt_mcp.http",
-    "llmstxt_mcp.config : llmstxt_mcp.errors",
-    "llmstxt_mcp.models",
+    "llmsdottxt_mcp.cli",
+    "llmsdottxt_mcp.server",
+    "llmsdottxt_mcp.tools : llmsdottxt_mcp.resources : llmsdottxt_mcp.prompts",
+    "llmsdottxt_mcp.pipeline",
+    "llmsdottxt_mcp.scanners : llmsdottxt_mcp.resolvers : llmsdottxt_mcp.platforms : llmsdottxt_mcp.fetcher : llmsdottxt_mcp.index",
+    "llmsdottxt_mcp.http",
+    "llmsdottxt_mcp.config : llmsdottxt_mcp.errors",
+    "llmsdottxt_mcp.models",
 ]
 
 # =============================================================================
@@ -237,4 +237,4 @@ exclude_dirs = ["tests", ".venv", "build", "dist"]
 # =============================================================================
 
 [tool.deptry]
-known_first_party = ["llmstxt_mcp"]
+known_first_party = ["llmsdottxt_mcp"]

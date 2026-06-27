@@ -1,7 +1,7 @@
 ---
 name: architecture
 description: Layered import contract.
-globs: ["src/llmstxt_mcp/**/*.py"]
+globs: ["src/llmsdottxt_mcp/**/*.py"]
 ---
 - Layers (high to low): cli → server → tools/resources/prompts → pipeline → scanners/resolvers/platforms/fetcher/index → http → config/errors → models.
 - A layer may import only lower layers; siblings stay independent.

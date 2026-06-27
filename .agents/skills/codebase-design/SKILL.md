@@ -8,7 +8,7 @@ metadata:
 
 # Codebase Design
 
-Use this when designing or refactoring `llmstxt-mcp` modules, especially when deciding where a testable seam belongs.
+Use this when designing or refactoring `llmsdottxt-mcp` modules, especially when deciding where a testable seam belongs.
 
 ## Vocabulary
 
@@ -29,7 +29,7 @@ Use this when designing or refactoring `llmstxt-mcp` modules, especially when de
 - One adapter means a hypothetical seam. Two adapters means a real seam.
 - Do not use "service", "component", "API", or "boundary" when one of the terms above is more precise.
 
-## llmstxt-mcp Fit
+## llmsdottxt-mcp Fit
 
 - docs-host fetch is a transport seam.
 - FastMCP Tool Wrapper signatures are agent-facing interfaces.

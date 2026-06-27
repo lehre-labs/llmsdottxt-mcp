@@ -4,7 +4,7 @@
 This file encodes the project's shared coding discipline. For local-only overrides — tool aliases, editor preferences, personal shortcuts — create an `AGENTS.local.md` next to this file. It is git-ignored and sourced after this file, so it can shadow or extend any heading without branching the shared rules.
 </critical>
 
-We're building **llmstxt-mcp** — a local-first MCP server that scans a project's dependencies, discovers their `llms.txt` documentation endpoints, fetches and indexes the content, and exposes it to AI coding agents through **FastMCP**. Installed with `uvx llmstxt-mcp`.
+We're building **llmsdottxt-mcp** — a local-first MCP server that scans a project's dependencies, discovers their `llms.txt` documentation endpoints, fetches and indexes the content, and exposes it to AI coding agents through **FastMCP**. Installed with `uvx llmsdottxt-mcp`.
 
 ## Domain Language
 
@@ -85,7 +85,7 @@ One canonical name per concept.
 ## Observability & Safety
 
 - stdout is the MCP stdio channel — **never `print()`** in library code. Logs are JSON on stderr via `structlog` (`config/logging.py`).
-- Route all HTTP through `llmstxt_mcp.http` for retry + rate-limiting.
+- Route all HTTP through `llmsdottxt_mcp.http` for retry + rate-limiting.
 - Treat fetched llms.txt content as untrusted; cap size; never commit the `~/.llms.txt.d/` cache.
 
 ## Project Config

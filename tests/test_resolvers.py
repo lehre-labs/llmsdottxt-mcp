@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 import httpx
 import pytest
 
-from llmstxt_mcp.http import build_client
-from llmstxt_mcp.models import DocsUrlSource, Ecosystem
-from llmstxt_mcp.resolvers import resolve
+from llmsdottxt_mcp.http import build_client
+from llmsdottxt_mcp.models import DocsUrlSource, Ecosystem
+from llmsdottxt_mcp.resolvers import resolve
 
 if TYPE_CHECKING:
     from pytest_httpx import HTTPXMock

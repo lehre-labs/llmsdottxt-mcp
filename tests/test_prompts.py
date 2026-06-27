@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from llmstxt_mcp.prompts.docs import find_docs_for_import
+from llmsdottxt_mcp.prompts.docs import find_docs_for_import
 
 
 def test_find_docs_for_import_uses_package_root() -> None:

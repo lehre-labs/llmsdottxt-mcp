@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from llmstxt_mcp import index
-from llmstxt_mcp.models import (
+from llmsdottxt_mcp import index
+from llmsdottxt_mcp.models import (
     Ecosystem,
     IndexEntry,
     IndexMeta,

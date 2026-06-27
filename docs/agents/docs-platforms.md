@@ -1,6 +1,6 @@
 # Documentation Platforms
 
-llmstxt-mcp auto-discovers and fetches `/llms.txt` and `/llms-full.txt` from dependency docs. Platform detection enables optimized fetches; all standards-compliant platforms work via generic fallback.
+llmsdottxt-mcp auto-discovers and fetches `/llms.txt` and `/llms-full.txt` from dependency docs. Platform detection enables optimized fetches; all standards-compliant platforms work via generic fallback.
 
 ## Legend
 
@@ -50,9 +50,9 @@ Not platforms, but useful for manual setup.
 
 To add platform detection (promoting from [~] to [x]):
 
-1. Add the enum value in `src/llmstxt_mcp/models/strings.py` (`Platform`).
-2. Create a `BasePlatform` subclass in `src/llmstxt_mcp/platforms/` — override `from_response` and/or `from_url`.
-3. Register it in `src/llmstxt_mcp/platforms/registry.py` at the right priority position.
+1. Add the enum value in `src/llmsdottxt_mcp/models/strings.py` (`Platform`).
+2. Create a `BasePlatform` subclass in `src/llmsdottxt_mcp/platforms/` — override `from_response` and/or `from_url`.
+3. Register it in `src/llmsdottxt_mcp/platforms/registry.py` at the right priority position.
 4. Add tests in `tests/test_platforms.py` following the `httpx_mock` pattern.
 
 Generic fallback works for all platforms that serve `/llms.txt`.

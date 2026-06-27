@@ -1,7 +1,7 @@
 ---
 name: models
 description: Typed model design.
-globs: ["src/llmstxt_mcp/models/**/*.py"]
+globs: ["src/llmsdottxt_mcp/models/**/*.py"]
 ---
 - Prefer explicit Pydantic models over `dict[str, Any]`.
 - `core.py`: domain models (Dependency, DocsInfo, PlatformHint, llms.txt parse tree).

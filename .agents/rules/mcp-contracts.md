@@ -1,7 +1,7 @@
 ---
 name: mcp-contracts
 description: FastMCP contract guidance.
-globs: ["src/llmstxt_mcp/tools/**/*.py", "src/llmstxt_mcp/resources/**/*.py", "src/llmstxt_mcp/prompts/**/*.py", "src/llmstxt_mcp/server.py"]
+globs: ["src/llmsdottxt_mcp/tools/**/*.py", "src/llmsdottxt_mcp/resources/**/*.py", "src/llmsdottxt_mcp/prompts/**/*.py", "src/llmsdottxt_mcp/server.py"]
 ---
 - Keep tools thin: validate the signature, then delegate to `pipeline` or `index`.
 - Return structured Pydantic models; write docstrings for agent routing.

@@ -1,25 +1,32 @@
-# llmstxt-mcp
+# llmsdottxt-mcp
 
 **Auto-discover [`llms.txt`](https://llmstxt.org) from your deps. Docs your agent can read. Zero setup.**
 
-`llmstxt-mcp` scans your project's dependencies, discovers each package's `llms.txt` documentation endpoint, fetches and indexes the content locally, and exposes it to AI coding agents over the Model Context Protocol — so your agent reads first-party docs instead of guessing or scraping.
+`llmsdottxt-mcp` scans your project's dependencies, discovers each package's `llms.txt` documentation endpoint, fetches and indexes the content locally, and exposes it to AI coding agents over the Model Context Protocol — so your agent reads first-party docs instead of guessing or scraping.
 
 ## Why
 
-Unlike scraping-based doc tools, llmstxt-mcp is **local-first** and **llms.txt-native**: auto-discovery from your real dependencies, platform-aware fetching (Mintlify, Read the Docs, Docusaurus, GitHub Pages), a persistent searchable index, and size-safe handling of large `llms-full.txt` files.
+Unlike scraping-based doc tools, llmsdottxt-mcp is **local-first** and **llms.txt-native**: auto-discovery from your real dependencies, platform-aware fetching (Mintlify, Read the Docs, Docusaurus, GitHub Pages), a persistent searchable index, and size-safe handling of large `llms-full.txt` files.
 
 It is also resilient to docs hosts that push back: a genuine `429`/`503` is retried with backoff (honoring `Retry-After`), while an unsolvable bot challenge — Cloudflare, DataDome, Imperva, AWS WAF, Akamai, Sucuri — is detected and reported as **blocked** (a browser is required to pass it), so it is never silently miscounted as "no docs".
+
+## Status
+
+- Project status: pre-1.0 public preview.
+- Python: 3.14+.
+- API stability: MCP tool names and response schemas may change before 1.0.
+- Support: GitHub issues for bugs and features; private security reports for vulnerabilities.
 
 ## Install & Run
 
 ```sh
-uvx llmstxt-mcp scan      # index the current project's dependencies
-uvx llmstxt-mcp status    # show indexed packages
-uvx llmstxt-mcp serve     # start the MCP server on stdio
-uvx llmstxt-mcp doctor    # diagnose paths, write access, registry connectivity
+uvx llmsdottxt-mcp scan      # index the current project's dependencies
+uvx llmsdottxt-mcp status    # show indexed packages
+uvx llmsdottxt-mcp serve     # start the MCP server on stdio
+uvx llmsdottxt-mcp doctor    # diagnose paths, write access, registry connectivity
 ```
 
-Add it to an MCP client (e.g. Claude Code) as a stdio server running `llmstxt-mcp serve`.
+Add it to an MCP client (e.g. Claude Code) as a stdio server running `llmsdottxt-mcp serve`.
 
 ## MCP Surface
 

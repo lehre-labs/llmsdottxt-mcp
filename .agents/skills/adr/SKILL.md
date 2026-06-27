@@ -42,7 +42,7 @@ Consequences: what this makes easier and harder.
 
 Keep it compact. Optional sections are fine only when they add signal.
 
-## llmstxt-mcp ADR Candidates
+## llmsdottxt-mcp ADR Candidates
 
 - Public MCP contract stability policy.
 - Registry and platform compatibility strategy.

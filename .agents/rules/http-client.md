@@ -1,9 +1,9 @@
 ---
 name: http-client
 description: Shared HTTP transport rules.
-globs: ["src/llmstxt_mcp/http.py", "src/llmstxt_mcp/resolvers/**/*.py", "src/llmstxt_mcp/platforms/**/*.py", "src/llmstxt_mcp/fetcher.py"]
+globs: ["src/llmsdottxt_mcp/http.py", "src/llmsdottxt_mcp/resolvers/**/*.py", "src/llmsdottxt_mcp/platforms/**/*.py", "src/llmsdottxt_mcp/fetcher.py"]
 ---
-- Route all requests through `llmstxt_mcp.http` (`get` / `stream`) for retry + rate-limit.
+- Route all requests through `llmsdottxt_mcp.http` (`get` / `stream`) for retry + rate-limit.
 - Build one shared `AsyncClient` per scan; never one client per request.
 - `get` retries transient errors (connect/timeout/5xx **and 429/503**) via tenacity,
   honoring a numeric `Retry-After` (capped at `_MAX_RETRY_AFTER`); `stream` does not retry

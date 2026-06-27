@@ -1,7 +1,7 @@
 ---
 name: typed-python
 description: Typed boundaries and string aliases.
-globs: ["src/llmstxt_mcp/models/**/*.py", "src/llmstxt_mcp/**/*.py"]
+globs: ["src/llmsdottxt_mcp/models/**/*.py", "src/llmsdottxt_mcp/**/*.py"]
 ---
 - Put constrained string aliases and finite enums in `models/strings.py`.
 - Use `StrEnum` for finite protocol values: `Ecosystem`, `Platform`, `DocsUrlSource`.

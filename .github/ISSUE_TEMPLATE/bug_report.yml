@@ -19,7 +19,7 @@ body:
     attributes:
       label: Steps to reproduce
       placeholder: |
-        1. uvx llmstxt-mcp scan --root ...
+        1. uvx llmsdottxt-mcp scan --root ...
         2. ...
     validations:
       required: true
@@ -27,10 +27,10 @@ body:
     id: version
     attributes:
       label: Version
-      description: Output of `uvx llmstxt-mcp --help` header or installed version.
+      description: Output of `uvx llmsdottxt-mcp --help` header or installed version.
   - type: textarea
     id: doctor
     attributes:
       label: Doctor output
-      description: Output of `uvx llmstxt-mcp doctor` (redact anything private).
+      description: Output of `uvx llmsdottxt-mcp doctor` (redact anything private).
       render: shell

@@ -1,11 +1,11 @@
 # Agent Skills
 
-Project-native workflows for `llmstxt-mcp`. Rules in `.agents/rules` are always-on guidance; skills are invoked when a task needs a specific process.
+Project-native workflows for `llmsdottxt-mcp`. Rules in `.agents/rules` are always-on guidance; skills are invoked when a task needs a specific process.
 
 ## Skills
 
 - `codebase-design` - shared architecture vocabulary for deep modules and seams.
-- `domain-modeling` - sharpen llmstxt-mcp terminology and update `CONTEXT.md`.
+- `domain-modeling` - sharpen llmsdottxt-mcp terminology and update `CONTEXT.md`.
 - `adr` - record durable architectural decisions in `docs/adr`.
 - `tdd` - build behavior one test at a time.
 - `diagnosing-bugs` - reproduce, minimize, hypothesize, fix, and verify bugs.

@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: Maintain llmstxt-mcp domain language and update CONTEXT.md only when terminology is resolved.
+description: Maintain llmsdottxt-mcp domain language and update CONTEXT.md only when terminology is resolved.
 metadata:
   author: mattpocock
   version: "1.0.2"
@@ -8,7 +8,7 @@ metadata:
 
 # Domain Modeling
 
-Use this when naming, renaming, or clarifying llmstxt-mcp concepts. Do not use it merely to read existing context.
+Use this when naming, renaming, or clarifying llmsdottxt-mcp concepts. Do not use it merely to read existing context.
 
 ## Workflow
 
@@ -26,7 +26,7 @@ Use this when naming, renaming, or clarifying llmstxt-mcp concepts. Do not use i
 - Do not add general programming terms.
 - Do not include implementation decisions, file paths, or issue plans.
 
-## llmstxt-mcp Examples
+## llmsdottxt-mcp Examples
 
 - Prefer **docs-host fetch** over REST call when referring to the HTTP transport primitive.
 - Prefer **Tool Wrapper** over endpoint or handler when referring to FastMCP-exposed functions.

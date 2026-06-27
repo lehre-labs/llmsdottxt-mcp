@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from llmstxt_mcp import index
-from llmstxt_mcp.errors import PackageNotIndexedError
-from llmstxt_mcp.models import Ecosystem, IndexEntry, ParsedLlmsTxt
-from llmstxt_mcp.resources.packages import list_indexed_packages, package_entry
+from llmsdottxt_mcp import index
+from llmsdottxt_mcp.errors import PackageNotIndexedError
+from llmsdottxt_mcp.models import Ecosystem, IndexEntry, ParsedLlmsTxt
+from llmsdottxt_mcp.resources.packages import list_indexed_packages, package_entry
 
 
 def _entry(package: str = "requests") -> IndexEntry:

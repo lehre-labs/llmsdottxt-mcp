@@ -21,7 +21,7 @@ Maintain `CHANGELOG.md` in the Matt Pocock format. Every meaningful merge or fea
 ## Format
 
 ```
-# llmstxt-mcp
+# llmsdottxt-mcp
 
 ## {version}
 

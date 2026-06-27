@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 import httpx
 import pytest
 
-from llmstxt_mcp.http import build_client
-from llmstxt_mcp.models import Platform
-from llmstxt_mcp.platforms import detect_platform
+from llmsdottxt_mcp.http import build_client
+from llmsdottxt_mcp.models import Platform
+from llmsdottxt_mcp.platforms import detect_platform
 
 if TYPE_CHECKING:
     from pytest_httpx import HTTPXMock

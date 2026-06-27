@@ -4,7 +4,7 @@ Read before changing Pydantic models, FastMCP tool signatures, or string aliases
 
 ## Rules
 
-- Put string aliases and enums in `src/llmstxt_mcp/models/strings.py`.
+- Put string aliases and enums in `src/llmsdottxt_mcp/models/strings.py`.
 - Use `StrEnum` for finite protocol values (`Ecosystem`, `Platform`, `DocsUrlSource`).
 - Use the `LogLevel` `Literal` for log levels; plain `str` only when a value has no domain meaning.
 - Use `PackageName` / `SearchQuery` / `NonEmptyText` for user-supplied tool inputs.

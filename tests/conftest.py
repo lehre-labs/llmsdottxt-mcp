@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from llmstxt_mcp import index
-from llmstxt_mcp.config import settings
+from llmsdottxt_mcp import index
+from llmsdottxt_mcp.config import settings
 
 if TYPE_CHECKING:
     from pathlib import Path
