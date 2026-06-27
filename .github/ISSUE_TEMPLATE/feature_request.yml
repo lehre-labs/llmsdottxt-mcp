@@ -1,0 +1,26 @@
+name: Feature request
+description: Propose an ecosystem, platform, or capability.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can't you do today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Scanner (new ecosystem manifest)
+        - Resolver (new package registry)
+        - Platform detection
+        - MCP tools/resources/prompts
+        - CLI
+        - Other

@@ -1,0 +1,36 @@
+name: Bug report
+description: Something is wrong with scanning, resolving, or serving docs.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Expected vs actual behavior.
+    validations:
+      required: true
+  - type: input
+    id: package
+    attributes:
+      label: Affected package / docs URL
+      description: e.g. "fastapi resolved to the wrong docs URL", or the docs base URL.
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. uvx llmstxt-mcp scan --root ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `uvx llmstxt-mcp --help` header or installed version.
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output
+      description: Output of `uvx llmstxt-mcp doctor` (redact anything private).
+      render: shell
