@@ -1,6 +1,6 @@
 [project]
 name = "llmsdottxt-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Auto-discover llms.txt from your deps. Docs your agent can read. Zero setup."
 readme = "README.md"
 requires-python = ">=3.14"
@@ -39,6 +39,7 @@ llmsdottxt-mcp = "llmsdottxt_mcp.cli:main"
 Homepage = "https://github.com/lehre-labs/llmsdottxt-mcp"
 Issues = "https://github.com/lehre-labs/llmsdottxt-mcp/issues"
 Source = "https://github.com/lehre-labs/llmsdottxt-mcp"
+Changelog = "https://github.com/lehre-labs/llmsdottxt-mcp/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
@@ -221,7 +222,7 @@ layers = [
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.1.0"
+version = "0.1.1"
 version_files = ["pyproject.toml:version"]
 tag_format = "v$version"
 

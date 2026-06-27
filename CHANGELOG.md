@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## 0.1.1
+
+### Patch Changes
+
+- Add a `Changelog` project URL so PyPI links directly to this changelog.
+
 ## 0.1.0
 
 ### Minor Changes
