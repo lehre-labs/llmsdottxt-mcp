@@ -1,0 +1,78 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        types_or: [python, pyi]
+
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix
+        language: system
+        types_or: [python, pyi]
+
+      - id: ty-check
+        name: ty check
+        entry: uv run ty check
+        language: system
+        pass_filenames: false
+
+      - id: basedpyright
+        name: basedpyright
+        entry: uv run basedpyright
+        language: system
+        pass_filenames: false
+
+      - id: import-linter
+        name: import-linter
+        entry: uv run lint-imports
+        language: system
+        pass_filenames: false
+
+      - id: bandit
+        name: bandit
+        entry: uv run bandit -q -c pyproject.toml -r src
+        language: system
+        pass_filenames: false
+
+      - id: deptry
+        name: deptry
+        entry: uv run deptry .
+        language: system
+        pass_filenames: false
+
+      - id: pip-audit
+        name: pip-audit
+        entry: uv run pip-audit
+        language: system
+        pass_filenames: false
+
+      - id: zizmor
+        name: zizmor
+        entry: uv run zizmor --offline
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+
+      - id: pytest
+        name: pytest
+        entry: uv run pytest -n auto
+        language: system
+        pass_filenames: false
+
+      - id: commitlint
+        name: commitlint
+        entry: uv run cz check --allow-abort --commit-msg-file
+        language: system
+        stages: [commit-msg]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint

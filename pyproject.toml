@@ -1,0 +1,240 @@
+[project]
+name = "llmstxt-mcp"
+version = "0.1.0"
+description = "Auto-discover llms.txt from your deps. Docs your agent can read. Zero setup."
+readme = "README.md"
+requires-python = ">=3.14"
+license = "Apache-2.0"
+keywords = ["ai", "documentation", "fastmcp", "llms-txt", "mcp", "uvx"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pydantic :: 2",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Documentation",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Documentation",
+    "Typing :: Typed",
+]
+dependencies = [
+    "aiolimiter>=1.2",
+    "aiosqlite>=0.20",
+    "fastmcp>=3.0",
+    "httpx>=0.28",
+    "markdown-it-py>=3.0",
+    "pydantic>=2.10",
+    "pydantic-settings>=2.7",
+    "rich>=13.0",
+    "structlog>=25.1",
+    "tenacity>=9.0",
+    "typer>=0.15",
+]
+
+[project.scripts]
+llmstxt-mcp = "llmstxt_mcp.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/lehre-labs/llmstxt-mcp"
+Issues = "https://github.com/lehre-labs/llmstxt-mcp/issues"
+Source = "https://github.com/lehre-labs/llmstxt-mcp"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8",
+    "ty>=0.0.1a1",
+    "basedpyright>=1.39",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6",
+    "pytest-xdist>=3.6",
+    "pytest-httpx>=0.34",
+    "hypothesis>=6.120",
+    "inline-snapshot>=0.14",
+    "time-machine>=2.16",
+    "dirty-equals>=0.8",
+    "import-linter>=2.1",
+    "bandit>=1.8",
+    "pip-audit>=2.7",
+    "deptry>=0.21",
+    "pre-commit>=4.0",
+    "commitizen>=4.1",
+    "zizmor>=1.0",
+]
+
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv]
+package = true
+
+# =============================================================================
+# Ruff — linter & formatter
+# =============================================================================
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",   # pycodestyle + pyflakes
+    "I",             # import sorting
+    "N",             # PEP 8 naming
+    "UP",            # pyupgrade
+    "B",             # flake8-bugbear
+    "C4",            # flake8-comprehensions
+    "A",             # flake8-builtins
+    "SIM",           # flake8-simplify
+    "RUF",           # ruff-specific
+    "PL",            # pylint
+    "PIE",           # flake8-pie
+    "T20",           # flake8-print (no stray prints — stdout is the MCP channel)
+    "ISC",           # implicit-str-concat
+    "ASYNC",         # flake8-async
+    "PYI",           # flake8-pyi
+    "FA",            # future-annotations
+    "FLY",           # flynt
+    "EM",            # flake8-errmsg
+    "TCH",           # type-checking imports
+    "PT",            # flake8-pytest-style
+]
+ignore = [
+    "E501",     # line-too-long — handled by formatter
+    "ISC001",   # implicit-str-concat — formatter handles this
+    "PLR2004",  # magic-value-comparison — too noisy
+    "PLR0913",  # too-many-arguments
+    "EM101",    # raw-string-in-exception
+    "EM102",    # f-string-in-exception
+    "ASYNC109", # async-function-with-timeout — false positive (passed through to httpx)
+    "ASYNC240", # pathlib-in-async — local index IO is fast and intentional
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["N", "F401"]
+"src/llmstxt_mcp/cli.py" = ["T20", "PLC0415"]   # rich/typer output; lazy server import
+# Pydantic and FastMCP resolve annotations at runtime, so field/return types
+# cannot live in a TYPE_CHECKING block — disable flake8-type-checking there.
+"src/llmstxt_mcp/models/*.py" = ["TC001", "TC002", "TC003"]
+"src/llmstxt_mcp/config/settings.py" = ["TC001"]
+"src/llmstxt_mcp/tools/*.py" = ["TC001", "TC002", "TC003"]
+"src/llmstxt_mcp/resources/*.py" = ["TC001", "TC002", "TC003"]
+"tests/*.py" = ["T20", "PLR2004", "PLR0913", "PT009", "PLC0415"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.isort]
+known-first-party = ["llmstxt_mcp"]
+force-sort-within-sections = true
+combine-as-imports = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+# =============================================================================
+# Pytest + coverage
+# =============================================================================
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+addopts = [
+    "--strict-markers",
+    "--tb=short",
+    "--cov=llmstxt_mcp",
+    "--cov-report=term-missing",
+]
+markers = [
+    "live: opt-in tests that hit the live network (PyPI, docs hosts)",
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+fail_under = 60
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.inline-snapshot]
+format-command = "uv run ruff format --stdin-filename {filename} -"
+
+# =============================================================================
+# ty — static type checking
+# =============================================================================
+
+[tool.ty.environment]
+python-version = "3.14"
+root = ["./src"]
+
+[tool.ty.src]
+include = ["src", "tests"]
+
+# =============================================================================
+# basedpyright — strict static type checking
+# =============================================================================
+
+[tool.basedpyright]
+include = ["src", "tests"]
+pythonVersion = "3.14"
+typeCheckingMode = "standard"
+
+# =============================================================================
+# import-linter — layered architecture contract
+# =============================================================================
+
+[tool.importlinter]
+root_package = "llmstxt_mcp"
+exclude_type_checking_imports = true
+
+[[tool.importlinter.contracts]]
+name = "llmstxt-mcp layered architecture"
+type = "layers"
+layers = [
+    "llmstxt_mcp.cli",
+    "llmstxt_mcp.server",
+    "llmstxt_mcp.tools : llmstxt_mcp.resources : llmstxt_mcp.prompts",
+    "llmstxt_mcp.pipeline",
+    "llmstxt_mcp.scanners : llmstxt_mcp.resolvers : llmstxt_mcp.platforms : llmstxt_mcp.fetcher : llmstxt_mcp.index",
+    "llmstxt_mcp.http",
+    "llmstxt_mcp.config : llmstxt_mcp.errors",
+    "llmstxt_mcp.models",
+]
+
+# =============================================================================
+# Commitizen — Conventional Commits
+# =============================================================================
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = ["pyproject.toml:version"]
+tag_format = "v$version"
+
+# =============================================================================
+# Bandit — security linting
+# =============================================================================
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "build", "dist"]
+
+# =============================================================================
+# Deptry — dependency hygiene
+# =============================================================================
+
+[tool.deptry]
+known_first_party = ["llmstxt_mcp"]
