@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "write|edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.agents/hooks/posttooluse-ruff.sh",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "./.agents/hooks/posttooluse-ty.sh",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "./.agents/hooks/posttooluse-basedpyright.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
