@@ -27,6 +27,8 @@ from llmsdottxt_mcp.models.strings import (
     NonEmptyText,
     PackageName,
     Platform,
+    ResultLimit,
+    ResultOffset,
     SearchQuery,
     Transport,
 )
@@ -49,6 +51,8 @@ __all__ = [
     "ParsedLlmsTxt",
     "Platform",
     "PlatformHint",
+    "ResultLimit",
+    "ResultOffset",
     "ScanReport",
     "SearchHit",
     "SearchQuery",

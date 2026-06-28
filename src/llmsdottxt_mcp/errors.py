@@ -43,3 +43,17 @@ class PackageNotIndexedError(LlmstxtError):
     def __init__(self, package: str) -> None:
         self.package = package
         super().__init__(f"Package '{package}' is not indexed. Run index_deps first.")
+
+
+class SectionNotFoundError(LlmstxtError):
+    """A requested page title was not found in a package's full-text docs.
+
+    Carries the available H1 page titles so the tool boundary can steer the agent
+    toward a valid section instead of returning a dead end.
+    """
+
+    def __init__(self, package: str, section: str, available: list[str]) -> None:
+        self.package = package
+        self.section = section
+        self.available = available
+        super().__init__(f"No page titled '{section}' in '{package}' full-text docs.")

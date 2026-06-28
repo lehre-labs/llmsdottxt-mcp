@@ -71,6 +71,16 @@ SearchQuery = Annotated[
     Field(description="Documentation search term."),
 ]
 
+ResultLimit = Annotated[
+    int,
+    Field(ge=1, le=100, description="Maximum number of results to return."),
+]
+
+ResultOffset = Annotated[
+    int,
+    Field(ge=0, description="Number of results to skip, for pagination."),
+]
+
 
 class Transport(StrEnum):
     """MCP server transport protocols (user-facing names)."""

@@ -8,11 +8,13 @@ from typing import TYPE_CHECKING
 from fastmcp.exceptions import ToolError
 
 from llmsdottxt_mcp import index, pipeline
-from llmsdottxt_mcp.errors import LlmstxtError
+from llmsdottxt_mcp.errors import LlmstxtError, SectionNotFoundError
 from llmsdottxt_mcp.models import (
     BrowseToc,
     PackageName,
     PackageSummary,
+    ResultLimit,
+    ResultOffset,
     ScanReport,
     SearchHit,
     SearchQuery,
@@ -46,25 +48,28 @@ async def index_deps(root: str | None = None, refresh: bool = False) -> ScanRepo
 
 
 async def search(
-    query: SearchQuery | None = None, ecosystem: str | None = None
+    query: SearchQuery | None = None,
+    ecosystem: str | None = None,
+    limit: ResultLimit = 20,
+    offset: ResultOffset = 0,
 ) -> list[PackageSummary] | list[SearchHit]:
     """Search indexed documentation or list all packages when query is empty.
 
     ## Using this tool
     Call with a query string for ranked full-text search. Call with no query
     (or an empty string) to list every indexed package with version, platform,
-    and full-text availability. Use **index_deps** first if the index is empty.
+    and full-text availability. Results are paginated; raise ``offset`` by
+    ``limit`` to page through more. Use **index_deps** first if the index is empty.
 
     Args:
         query: Free-text search term. Omit or pass empty for a full listing.
         ecosystem: Filter results by ecosystem (python, node, rust, go).
+        limit: Maximum number of results to return (1-100, default 20).
+        offset: Number of results to skip, for pagination (default 0).
     """
     if not query:
-        return await index.summaries(ecosystem)
-    hits = await index.search(query)
-    if ecosystem:
-        hits = [h for h in hits if h.ecosystem.value == ecosystem]
-    return hits
+        return await index.summaries(ecosystem, limit, offset)
+    return await index.search(query, ecosystem, limit, offset)
 
 
 async def browse(
@@ -74,13 +79,14 @@ async def browse(
 
     ## Using this tool
     Call without ``section`` to get the table of contents (title, description,
-    and all sections with their links). Call with a section name to retrieve
-    the full llms-full.txt content. Use **search** first if you need to discover
-    which packages are available.
+    and all sections with their links). Call with a section name to retrieve a
+    single page of the full-text docs, matched by its title. Use **search**
+    first if you need to discover which packages are available.
 
     Args:
         package: Package name (e.g. 'requests', 'fastapi').
-        section: Optional section name from the TOC. When absent, returns TOC.
+        section: Optional page title from the docs. When absent, returns TOC.
+                 Matched case-insensitively against llms-full.txt page headings.
         ecosystem: Disambiguate when the same package name exists in multiple
                    ecosystems (e.g. 'requests' in both python and node).
     """
@@ -105,7 +111,13 @@ async def browse(
         )
 
     try:
-        return await pipeline.get_full_text(package, entry.ecosystem.value)
+        return await pipeline.get_section(package, section, entry.ecosystem.value)
+    except SectionNotFoundError as exc:
+        available = ", ".join(exc.available[:30]) or "(none — full text has no page headings)"
+        return (
+            f"No page titled '{section}' in '{package}'. Available pages: {available}. "
+            f"Pass one of these as the section, or call browse('{package}') for the TOC."
+        )
     except LlmstxtError as exc:
         # Non-fatal: the package is indexed but has no llms-full.txt. Steer the
         # agent back to the TOC rather than surfacing a dead end.

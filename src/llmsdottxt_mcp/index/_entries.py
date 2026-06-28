@@ -47,17 +47,21 @@ async def find(package: str, ecosystem: str | None = None) -> IndexEntry | None:
     return _row_to_entry(row) if row else None
 
 
-async def list_all(ecosystem: str | None = None) -> list[IndexEntry]:
+async def list_all(
+    ecosystem: str | None = None, limit: int | None = None, offset: int = 0
+) -> list[IndexEntry]:
     conn = await _get_conn()
+    sql = f"SELECT {_ENTRY_COLS} FROM index_entry"  # nosec B608
+    params: list[object] = []
     if ecosystem:
-        cursor = await conn.execute(
-            f"SELECT {_ENTRY_COLS} FROM index_entry WHERE ecosystem = ? ORDER BY package",  # nosec B608
-            (ecosystem,),
-        )
+        sql += " WHERE ecosystem = ? ORDER BY package"
+        params.append(ecosystem)
     else:
-        cursor = await conn.execute(
-            f"SELECT {_ENTRY_COLS} FROM index_entry ORDER BY ecosystem, package"  # nosec B608
-        )
+        sql += " ORDER BY ecosystem, package"
+    if limit is not None:
+        sql += " LIMIT ? OFFSET ?"
+        params.extend((limit, offset))
+    cursor = await conn.execute(sql, params)
     return [_row_to_entry(row) async for row in cursor]
 
 
@@ -93,11 +97,15 @@ def summary(entry: IndexEntry) -> PackageSummary:
     )
 
 
-async def summaries(ecosystem: str | None = None) -> list[PackageSummary]:
-    return [summary(entry) for entry in await list_all(ecosystem)]
+async def summaries(
+    ecosystem: str | None = None, limit: int | None = None, offset: int = 0
+) -> list[PackageSummary]:
+    return [summary(entry) for entry in await list_all(ecosystem, limit, offset)]
 
 
-async def search(query: str, limit: int = 10) -> list[SearchHit]:
+async def search(
+    query: str, ecosystem: str | None = None, limit: int = 10, offset: int = 0
+) -> list[SearchHit]:
     conn = await _get_conn()
     terms = [t for t in query.split() if t]
     if not terms:
@@ -106,10 +114,12 @@ async def search(query: str, limit: int = 10) -> list[SearchHit]:
     # Wrap each term as an FTS5 string literal, doubling any embedded quote so
     # user input cannot break out of the literal (FTS5's escape rule).
     fts_query = " OR ".join(f'"{term.replace('"', '""')}"' for term in terms)
+    # Fetch all ranked matches, then apply the ecosystem filter and limit/offset
+    # in Python: the filter would otherwise shrink a SQL-paginated page below the
+    # requested size. The local index is small, so this is cheap.
     cursor = await conn.execute(
-        "SELECT rowid, rank FROM index_entry_fts "
-        "WHERE index_entry_fts MATCH ? ORDER BY rank LIMIT ?",
-        (fts_query, limit),
+        "SELECT rowid, rank FROM index_entry_fts WHERE index_entry_fts MATCH ? ORDER BY rank",
+        (fts_query,),
     )
     fts_rows = [(row[0], row[1]) async for row in cursor]
     if not fts_rows:
@@ -131,6 +141,8 @@ async def search(query: str, limit: int = 10) -> list[SearchHit]:
         entry = entry_by_rowid.get(rowid)
         if entry is None:
             continue
+        if ecosystem and entry.ecosystem.value != ecosystem:
+            continue
         hits.append(
             SearchHit(
                 package=entry.package,
@@ -142,7 +154,7 @@ async def search(query: str, limit: int = 10) -> list[SearchHit]:
                 full_text_size=entry.full_text_size,
             )
         )
-    return hits
+    return hits[offset : offset + limit]
 
 
 async def clear_all() -> None:

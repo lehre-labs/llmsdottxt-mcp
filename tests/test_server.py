@@ -88,6 +88,24 @@ async def test_search_ecosystem_filter() -> None:
     assert all(s.ecosystem == Ecosystem.python for s in summaries)
 
 
+async def test_search_listing_pagination() -> None:
+    for name in ("aa", "bb", "cc", "dd"):
+        await index.add(_entry(name))
+    page = await docs.search("", limit=2, offset=0)
+    assert [s.package for s in page] == ["aa", "bb"]
+    page2 = await docs.search("", limit=2, offset=2)
+    assert [s.package for s in page2] == ["cc", "dd"]
+
+
+async def test_search_query_pagination() -> None:
+    for name in ("reqs1", "reqs2", "reqs3"):
+        await index.add(_entry(name, title="requests client"))
+    hits = await docs.search("requests", limit=2)
+    assert len(hits) == 2
+    rest = await docs.search("requests", limit=2, offset=2)
+    assert len(rest) == 1
+
+
 # ── browse (consolidated: no section = TOC, section = full-text) ─────
 
 
@@ -102,12 +120,27 @@ async def test_browse_toc_returns_sections() -> None:
     assert len(result.sections[0].links) == 2
 
 
-async def test_browse_section_returns_full_text() -> None:
-    index.cache_full_text("requests", "python", "# Full docs\n\nContent here.")
+async def test_browse_section_slices_matching_page() -> None:
+    index.cache_full_text(
+        "requests",
+        "python",
+        "# Quickstart\n\nInstall it.\n\n# API Reference\n\nThe full API.\n",
+    )
     await index.add(_entry("requests"))
-    result = await docs.browse("requests", "core")
+    result = await docs.browse("requests", "api reference")
     assert isinstance(result, str)
-    assert "Full docs" in result
+    assert result.startswith("# API Reference")
+    assert "The full API." in result
+    assert "Install it." not in result
+
+
+async def test_browse_section_miss_lists_available_pages() -> None:
+    index.cache_full_text("requests", "python", "# Quickstart\n\nInstall it.\n")
+    await index.add(_entry("requests"))
+    result = await docs.browse("requests", "nonexistent")
+    assert isinstance(result, str)
+    assert "Quickstart" in result  # available page listed
+    assert "browse" in result.lower()
 
 
 async def test_browse_section_not_indexed_raises_tool_error() -> None:

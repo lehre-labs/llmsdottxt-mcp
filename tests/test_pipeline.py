@@ -7,7 +7,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 from llmsdottxt_mcp import index, pipeline
-from llmsdottxt_mcp.errors import PackageNotIndexedError
+from llmsdottxt_mcp.errors import PackageNotIndexedError, SectionNotFoundError
+from llmsdottxt_mcp.models import Ecosystem, IndexEntry, ParsedLlmsTxt
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -180,14 +181,7 @@ async def test_get_full_text_fetches_on_demand(
     # Clear the cache to force a fetch on demand.
     await index.clear_all()
     # Re-index with just the entry, no cache.
-    from llmsdottxt_mcp.models import (
-        Ecosystem,
-        IndexEntry,
-        Link,
-        ParsedLlmsTxt,
-        Platform,
-        Section,
-    )
+    from llmsdottxt_mcp.models import Link, Platform, Section
 
     httpx_mock.add_response(
         url="https://requests.readthedocs.io/llms-full.txt", text="FRESH FULL DOCS"
@@ -212,3 +206,35 @@ async def test_get_full_text_fetches_on_demand(
 
     content = await pipeline.get_full_text("requests")
     assert content == "FRESH FULL DOCS"
+
+
+def _indexed_with_full_text(full_text: str) -> IndexEntry:
+    return IndexEntry(
+        package="requests",
+        ecosystem=Ecosystem.python,
+        docs_base_url="https://requests.readthedocs.io",
+        has_full_text=True,
+        full_text_size=len(full_text),
+        llms_txt=ParsedLlmsTxt(title="Requests"),
+        indexed_at="2026-06-27T00:00:00Z",
+    )
+
+
+async def test_get_section_slices_cached_page() -> None:
+    full = "# Quickstart\n\nInstall it.\n\n# API\n\nThe API.\n"
+    index.cache_full_text("requests", "python", full)
+    await index.add(_indexed_with_full_text(full))
+
+    page = await pipeline.get_section("requests", "api")
+    assert page.startswith("# API")
+    assert "Install it." not in page
+
+
+async def test_get_section_missing_raises_with_available() -> None:
+    full = "# Quickstart\n\nInstall it.\n"
+    index.cache_full_text("requests", "python", full)
+    await index.add(_indexed_with_full_text(full))
+
+    with pytest.raises(SectionNotFoundError) as exc_info:
+        await pipeline.get_section("requests", "nope")
+    assert exc_info.value.available == ["Quickstart"]

@@ -14,8 +14,18 @@ import structlog
 
 from llmsdottxt_mcp import index
 from llmsdottxt_mcp.config import settings
-from llmsdottxt_mcp.errors import BlockedByChallengeError, FetchError, PackageNotIndexedError
-from llmsdottxt_mcp.fetcher import fetch_full_text, fetch_llms_txt
+from llmsdottxt_mcp.errors import (
+    BlockedByChallengeError,
+    FetchError,
+    PackageNotIndexedError,
+    SectionNotFoundError,
+)
+from llmsdottxt_mcp.fetcher import (
+    fetch_full_text,
+    fetch_llms_txt,
+    full_text_section_names,
+    slice_full_text_section,
+)
 from llmsdottxt_mcp.http import build_client
 from llmsdottxt_mcp.models import DocsInfo, Ecosystem, IndexEntry, IndexMeta, ScanReport
 from llmsdottxt_mcp.platforms import detect_platform
@@ -159,3 +169,17 @@ async def get_full_text(package: str, ecosystem: str | None = None) -> str:
 
     msg = f"No full documentation available for '{package}' (no llms-full.txt found)."
     raise FetchError(msg)
+
+
+async def get_section(package: str, section: str, ecosystem: str | None = None) -> str:
+    """Return one page of a package's full docs, sliced by H1 page title.
+
+    Raises ``SectionNotFoundError`` (carrying the available page titles) when no
+    page matches, and ``PackageNotIndexedError`` / ``FetchError`` when full text
+    is unavailable.
+    """
+    full = await get_full_text(package, ecosystem)
+    sliced = slice_full_text_section(full, section)
+    if sliced is None:
+        raise SectionNotFoundError(package, section, full_text_section_names(full))
+    return sliced

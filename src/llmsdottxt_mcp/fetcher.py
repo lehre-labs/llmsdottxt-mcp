@@ -167,6 +167,73 @@ async def fetch_full_text(
     return None
 
 
+def _fence_marker(stripped: str) -> str | None:
+    """Return the fence delimiter (``` or ~~~) a line opens/closes, else None."""
+    if stripped.startswith("```"):
+        return "```"
+    if stripped.startswith("~~~"):
+        return "~~~"
+    return None
+
+
+def split_full_text(text: str) -> list[tuple[str, str]]:
+    """Split llms-full.txt into ``(page_title, page_body)`` pairs by H1 headings.
+
+    llms-full.txt concatenates documentation pages, each introduced by an H1
+    (``# Title``). Headings inside fenced code blocks are ignored so a ``#`` in a
+    shell snippet never starts a new page. Any preamble before the first H1 is
+    dropped. Pure and side-effect free for easy testing.
+    """
+    pages: list[tuple[str, str]] = []
+    title: str | None = None
+    body: list[str] = []
+    in_fence = False
+    fence: str | None = None
+
+    for line in text.splitlines(keepends=True):
+        stripped = line.lstrip()
+        marker = _fence_marker(stripped)
+        if marker is not None:
+            if not in_fence:
+                in_fence, fence = True, marker
+            elif fence is not None and stripped.startswith(fence):
+                in_fence, fence = False, None
+        elif not in_fence and stripped.startswith("# "):
+            if title is not None:
+                pages.append((title, "".join(body)))
+            title = stripped[2:].strip()
+            body = [line]
+            continue
+        if title is not None:
+            body.append(line)
+
+    if title is not None:
+        pages.append((title, "".join(body)))
+    return pages
+
+
+def slice_full_text_section(text: str, section: str) -> str | None:
+    """Return the full-text page whose H1 title matches ``section``.
+
+    Matching is case-insensitive: an exact title match wins, otherwise the first
+    page whose title contains the query. Returns ``None`` when nothing matches.
+    """
+    target = section.strip().casefold()
+    pages = split_full_text(text)
+    for title, body in pages:
+        if title.casefold() == target:
+            return body.strip()
+    for title, body in pages:
+        if target in title.casefold():
+            return body.strip()
+    return None
+
+
+def full_text_section_names(text: str) -> list[str]:
+    """List the H1 page titles available in an llms-full.txt document."""
+    return [title for title, _ in split_full_text(text)]
+
+
 def parse_llms_txt(raw: str) -> ParsedLlmsTxt:
     """Parse the llms.txt markdown format into a structured model.
 

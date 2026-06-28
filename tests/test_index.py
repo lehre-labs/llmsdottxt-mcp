@@ -141,6 +141,45 @@ async def test_read_meta_persists() -> None:
     assert meta.last_scan is None
 
 
+async def test_list_all_pagination() -> None:
+    for name in ("a", "b", "c", "d"):
+        await index.add(_entry(name))
+    assert [e.package for e in await index.list_all(limit=2)] == ["a", "b"]
+    assert [e.package for e in await index.list_all(limit=2, offset=2)] == ["c", "d"]
+
+
+async def test_summaries_pagination() -> None:
+    for name in ("a", "b", "c"):
+        await index.add(_entry(name))
+    page = await index.summaries(limit=1, offset=1)
+    assert [s.package for s in page] == ["b"]
+
+
+async def test_search_pagination() -> None:
+    for name in ("req1", "req2", "req3"):
+        await index.add(_entry(name, title="requests"))
+    first = await index.search("requests", limit=2)
+    assert len(first) == 2
+    second = await index.search("requests", limit=2, offset=2)
+    assert len(second) == 1
+    # No page overlap.
+    assert {h.package for h in first}.isdisjoint({h.package for h in second})
+
+
+async def test_search_filters_by_ecosystem() -> None:
+    await index.add(_entry("requests"))
+    await index.add(
+        IndexEntry(
+            package="axios",
+            ecosystem=Ecosystem.node,
+            llms_txt=ParsedLlmsTxt(title="axios requests"),
+            indexed_at="2026-06-27T00:00:00Z",
+        )
+    )
+    hits = await index.search("requests", ecosystem="node")
+    assert [h.package for h in hits] == ["axios"]
+
+
 async def test_search_no_results() -> None:
     await index.add(_entry("requests"))
     assert await index.search("zzznotfound") == []
