@@ -37,7 +37,11 @@ def serve(
     port: int = DEFAULT_MCP_PORT,
 ) -> None:
     """Run the MCP server with the chosen transport."""
-    mcp.run(transport=transport.to_fastmcp(), host=host, port=port)
+    if transport is Transport.stdio:
+        # stdio's transport runner takes no host/port — forwarding them raises TypeError.
+        mcp.run(transport="stdio")
+    else:
+        mcp.run(transport=transport.to_fastmcp(), host=host, port=port)
 
 
 def main() -> None:

@@ -162,7 +162,7 @@ def test_serve_defaults_to_stdio() -> None:
 
     with mock.patch("llmsdottxt_mcp.server.mcp.run") as run_mock:
         server_serve()
-        run_mock.assert_called_once_with(transport="stdio", host="127.0.0.1", port=8000)
+        run_mock.assert_called_once_with(transport="stdio")
 
 
 def test_serve_sse_transport() -> None:
