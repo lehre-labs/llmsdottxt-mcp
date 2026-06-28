@@ -2,9 +2,42 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from typing import Any
+
+from pydantic import BaseModel, Field, SerializerFunctionWrapHandler, model_serializer
 
 from llmsdottxt_mcp.models.strings import DocsUrlSource, Ecosystem, Platform
+
+
+class TrimmedModel(BaseModel):
+    """Base model whose JSON serialization omits ``None`` values and fields left
+    at their default.
+
+    Shrinks the structured-content payloads FastMCP sends to clients (it
+    serializes returns via ``pydantic_core.to_jsonable_python``) and the
+    gzip-free JSON persisted in the index. Omitted fields all carry defaults, so
+    they stay non-required in the generated schema and the output remains valid.
+
+    The serializer deliberately has **no return annotation**: annotating it
+    (even as ``Any``) makes Pydantic emit an empty serialization JSON schema,
+    which would erase FastMCP's per-field ``output_schema``.
+    """
+
+    @model_serializer(mode="wrap")
+    def _omit_defaults(self, handler: SerializerFunctionWrapHandler):
+        data = handler(self)
+        kept: dict[str, Any] = {}
+        for name, field in type(self).model_fields.items():
+            key = field.alias or name
+            if key not in data:
+                continue
+            value = data[key]
+            if value is None:
+                continue
+            if not field.is_required() and value == field.get_default(call_default_factory=True):
+                continue
+            kept[key] = value
+        return kept
 
 
 class Dependency(BaseModel):
@@ -37,7 +70,7 @@ class PlatformHint(BaseModel):
     headers: dict[str, str] = Field(default_factory=dict)
 
 
-class Link(BaseModel):
+class Link(TrimmedModel):
     """A single link entry inside an llms.txt section."""
 
     title: str
@@ -45,7 +78,7 @@ class Link(BaseModel):
     description: str | None = None
 
 
-class Section(BaseModel):
+class Section(TrimmedModel):
     """An H2-H6 heading group of links in an llms.txt file."""
 
     name: str

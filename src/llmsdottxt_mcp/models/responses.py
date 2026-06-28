@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-from llmsdottxt_mcp.models.core import Section
+from llmsdottxt_mcp.models.core import Section, TrimmedModel
 from llmsdottxt_mcp.models.strings import Ecosystem, Platform
 
 
-class ScanReport(BaseModel):
+class ScanReport(TrimmedModel):
     """Summary of a dependency scan."""
 
     project_root: str
@@ -22,7 +22,7 @@ class ScanReport(BaseModel):
     ecosystems: list[Ecosystem] = Field(default_factory=list)
 
 
-class PackageSummary(BaseModel):
+class PackageSummary(TrimmedModel):
     """One indexed package, as shown by search."""
 
     package: str
@@ -35,7 +35,7 @@ class PackageSummary(BaseModel):
     title: str | None = None
 
 
-class SearchHit(BaseModel):
+class SearchHit(TrimmedModel):
     """A ranked search result over the local index."""
 
     package: str
@@ -47,7 +47,7 @@ class SearchHit(BaseModel):
     full_text_size: int = 0
 
 
-class BrowseToc(BaseModel):
+class BrowseToc(TrimmedModel):
     """Table-of-contents view of an indexed package (``browse(package)``)."""
 
     package: str
@@ -59,7 +59,7 @@ class BrowseToc(BaseModel):
     sections: list[Section] = Field(default_factory=list)
 
 
-class StatusReport(BaseModel):
+class StatusReport(TrimmedModel):
     """Index statistics."""
 
     ecosystems: list[str] = Field(default_factory=list)

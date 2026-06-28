@@ -23,6 +23,12 @@ Pre-1.0. Direction, not a commitment.
 - [x] Tool surface refactor: `index_deps`, `search`, `browse`, `status` with hint/fallthrough system (ADR 0005)
 - [x] HTTP/SSE transport support in `serve` command (ADR 0007)
 
+## Done (v0.2)
+
+- [x] `browse(package, section)` slices llms-full.txt to the matching H1 page instead of returning the whole document, listing available page titles on a miss
+- [x] Pagination (`limit`/`offset`) on `search` ranked results and the empty-query package listing
+- [x] Token-trimmed MCP responses — response models omit null/default fields while keeping the output schema valid (ADR 0008)
+
 ## Now
 
 _Nothing in flight._
@@ -30,7 +36,7 @@ _Nothing in flight._
 ## Next
 
 - [ ] Per-page `.md` fetching via `PlatformHint.per_page_md_pattern` with `browse(package, page="/path")`
-- [ ] llms-full.txt section-level retrieval — store as heading-keyed chunks in SQLite, serve via `browse(package, section_path)`, never truncate
+- [ ] Store llms-full.txt as heading-keyed chunks in SQLite so page retrieval never truncates large documents
 
 ## Non-goals
 

@@ -32,6 +32,10 @@ _Avoid_: doc index, manifest
 The full concatenated documentation text; may be large and is cached gzipped.
 _Avoid_: full docs, dump
 
+**Page**:
+One documentation page inside an llms-full.txt, delimited by an H1 heading (`# Title`); `browse(package, section)` slices the full text to the Page whose title matches the `section` argument.
+_Avoid_: chunk, article, doc
+
 **Section / Link**:
 An H2-H6 heading-delimited group (Section, with level tracking) of `- [Title](url): desc` entries (Link) in an llms.txt.
 _Avoid_: group, item

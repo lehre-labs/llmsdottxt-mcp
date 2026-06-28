@@ -4,11 +4,16 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from hypothesis import given, strategies as st
+
 from llmsdottxt_mcp.fetcher import (
     _shares_repo_host,
     fetch_full_text,
     fetch_llms_txt,
+    full_text_section_names,
     parse_llms_txt,
+    slice_full_text_section,
+    split_full_text,
 )
 from llmsdottxt_mcp.http import build_client
 from llmsdottxt_mcp.models import DocsInfo, Ecosystem
@@ -196,3 +201,64 @@ def test_parse_no_headings() -> None:
     parsed = parse_llms_txt("just some text\nno headings here")
     assert parsed.title == ""
     assert parsed.sections == []
+
+
+# ── full-text page slicing ───────────────────────────────────────────
+
+_FULL_TEXT = (
+    "# Quickstart\n\nInstall the package.\n\n"
+    "# API Reference\n\n```py\n# not a page heading\nx = 1\n```\n\nThe API.\n\n"
+    "# Changelog\n\nReleases.\n"
+)
+
+
+def test_split_full_text_by_h1() -> None:
+    pages = split_full_text(_FULL_TEXT)
+    assert [title for title, _ in pages] == ["Quickstart", "API Reference", "Changelog"]
+    # H1 inside a fenced code block stays inside its page, not a new page.
+    api_body = next(body for title, body in pages if title == "API Reference")
+    assert "# not a page heading" in api_body
+
+
+def test_split_drops_preamble_before_first_h1() -> None:
+    pages = split_full_text("intro line with no heading\n\n# Real Page\n\nbody\n")
+    assert [t for t, _ in pages] == ["Real Page"]
+
+
+def test_split_no_headings_returns_empty() -> None:
+    assert split_full_text("just prose\nmore prose") == []
+
+
+def test_slice_full_text_section_exact_and_substring() -> None:
+    # Case-insensitive exact match.
+    quick = slice_full_text_section(_FULL_TEXT, "quickstart")
+    assert quick is not None
+    assert quick.startswith("# Quickstart")
+    assert "Install the package." in quick
+    # Substring match on the page title.
+    api = slice_full_text_section(_FULL_TEXT, "api")
+    assert api is not None
+    assert api.startswith("# API Reference")
+    # Miss.
+    assert slice_full_text_section(_FULL_TEXT, "missing") is None
+
+
+def test_full_text_section_names() -> None:
+    assert full_text_section_names(_FULL_TEXT) == ["Quickstart", "API Reference", "Changelog"]
+
+
+_clean_title = (
+    st.text(
+        alphabet=st.characters(blacklist_characters="\n\r#`~", blacklist_categories=("Cc", "Cs")),
+        min_size=1,
+        max_size=20,
+    )
+    .map(str.strip)
+    .filter(bool)
+)
+
+
+@given(st.lists(_clean_title, min_size=1, max_size=6))
+def test_split_round_trips_page_titles(titles: list[str]) -> None:
+    text = "".join(f"# {t}\n\nbody for {t}\n\n" for t in titles)
+    assert [title for title, _ in split_full_text(text)] == titles
