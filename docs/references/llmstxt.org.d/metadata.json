@@ -1,0 +1,79 @@
+{
+  "source": "https://llmstxt.org",
+  "fetched_at": "2026-06-28T05:01:39Z",
+  "fetched_by": "fetch.sh",
+  "file_count": 7,
+  "files": [
+    {
+      "file": "core.html.md",
+      "url": "https://llmstxt.org/core.html.md",
+      "http_status": 200,
+      "content_type": "text/markdown; charset=utf-8",
+      "bytes": 10112,
+      "sha256": "5ac88659a3f9bba0d431bc8bfcc88459c25790f01e08dca7bc5027e66103c75e",
+      "etag": "W/6a2822e6-2780",
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT"
+    },
+    {
+      "file": "domains-commonmark.md",
+      "url": "https://llmstxt.org/domains-commonmark.md",
+      "http_status": 200,
+      "content_type": "text/markdown; charset=utf-8",
+      "bytes": 3029,
+      "sha256": "a4d2755eb5458e0ac08efc07b9f3c584cc180ec582e19115db6199d17dcf35a4",
+      "etag": "W/6a2822e6-bd5",
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT"
+    },
+    {
+      "file": "ed-commonmark.md",
+      "url": "https://llmstxt.org/ed-commonmark.md",
+      "http_status": 200,
+      "content_type": "text/markdown; charset=utf-8",
+      "bytes": 2805,
+      "sha256": "df729564827ed3225c7c9532fc03a2c6e5726fe7ead0947f096a83553b1b6d33",
+      "etag": "W/6a2822e6-af5",
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT"
+    },
+    {
+      "file": "index.md",
+      "url": "https://llmstxt.org/index.md",
+      "http_status": 200,
+      "content_type": "text/markdown; charset=utf-8",
+      "bytes": 11112,
+      "sha256": "9c97423e0a6b6882a4c9640c4bae376a9b9a913e02c35a7775652e6d21976dcb",
+      "etag": "W/6a2822e6-2b68",
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT"
+    },
+    {
+      "file": "intro.html.md",
+      "url": "https://llmstxt.org/intro.html.md",
+      "http_status": 200,
+      "content_type": "text/markdown; charset=utf-8",
+      "bytes": 3768,
+      "sha256": "a9c29951826087ab351d7350a599298ad04ff2c4a8faf2cc208ea76109a125bb",
+      "etag": "W/6a2822e6-eb8",
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT"
+    },
+    {
+      "file": "llmstxt-js.html",
+      "url": "https://llmstxt.org/llmstxt-js.html",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 2167,
+      "sha256": "94dc5549e665e1ae90b8b166eecae5657731454a0dd1f2fd9974e123bbf91315",
+      "etag": null,
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT",
+      "note": "HTML-only upstream; converted by hand to llmstxt-js.md"
+    },
+    {
+      "file": "nbdev.md",
+      "url": "https://llmstxt.org/nbdev.md",
+      "http_status": 200,
+      "content_type": "text/markdown; charset=utf-8",
+      "bytes": 8686,
+      "sha256": "020862dabc6933b5c14d51f0c44d9eec4e84acc6b1503745accc7d54f2e86e42",
+      "etag": "W/6a2822e6-21ee",
+      "last_modified": "Tue, 09 Jun 2026 14:27:50 GMT"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ Use this when a dependency, CLI, or protocol detail may have changed. Prefer `ll
 |---|---|---|
 | FastMCP | https://gofastmcp.com/llms.txt | `/llms-full.txt`, then linked `.md` pages |
 | MCP protocol | https://modelcontextprotocol.io/llms-full.txt | https://modelcontextprotocol.io/docs |
-| llms.txt spec | https://llmstxt.org/ | https://llmstxt.org/index.md |
+| llms.txt spec | https://llmstxt.org/ | local mirror: [`references/llmstxt.org.d/`](../references/llmstxt.org.d/README.md) |
 | Pydantic | https://pydantic.dev/llms.txt | https://docs.pydantic.dev/latest/ |
 | pydantic-settings | https://docs.pydantic.dev/latest/concepts/pydantic_settings/ | — |
 | httpx | https://www.python-httpx.org/ | https://www.python-httpx.org/async/ |
