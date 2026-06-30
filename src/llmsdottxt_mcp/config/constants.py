@@ -44,7 +44,7 @@ USER_AGENT = f"llmsdottxt-mcp/{_VERSION}"
 
 # -- Ecosystem-specific curated lists ------------------------------------------
 # Forge hosts where Go module paths follow host/owner/repo and are also valid
-# repository URLs. Non-exhaustive — self-hosted instances will still be missed.
+# repository URLs. Non-exhaustive -- self-hosted instances will still be missed.
 GO_FORGE_HOSTS: tuple[str, ...] = (
     "github.com",
     "gitlab.com",

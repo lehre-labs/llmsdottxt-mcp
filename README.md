@@ -1,23 +1,12 @@
 # llmsdottxt-mcp
 
+> `llms.txt` will be how agents read docs -- so serve it to them natively, from the deps a project already has.
+
 **Auto-discover [`llms.txt`](https://llmstxt.org) from your deps. Docs your agent can read. Zero setup.**
 
-`llmsdottxt-mcp` scans your project's dependencies, discovers each package's `llms.txt` documentation endpoint, fetches and indexes the content locally, and exposes it to AI coding agents over the Model Context Protocol — so your agent reads first-party docs instead of guessing or scraping.
+An MCP server that scans your project's dependency manifests, discovers each package's `llms.txt` documentation endpoint, indexes the content locally under `~/.llms.txt.d/`, and serves it to AI coding agents over the Model Context Protocol.
 
-## Why
-
-Unlike scraping-based doc tools, llmsdottxt-mcp is **local-first** and **llms.txt-native**: auto-discovery from your real dependencies, platform-aware fetching (Mintlify, Read the Docs, Docusaurus, GitHub Pages), a persistent searchable index, and size-safe handling of large `llms-full.txt` files.
-
-It is also resilient to docs hosts that push back: a genuine `429`/`503` is retried with backoff (honoring `Retry-After`), while an unsolvable bot challenge — Cloudflare, DataDome, Imperva, AWS WAF, Akamai, Sucuri — is detected and reported as **blocked** (a browser is required to pass it), so it is never silently miscounted as "no docs".
-
-## Status
-
-- Project status: pre-1.0 public preview.
-- Python: 3.14+.
-- API stability: MCP tool names and response schemas may change before 1.0.
-- Support: GitHub issues for bugs and features; private security reports for vulnerabilities.
-
-## Install & Run
+## Quickstart
 
 ```sh
 uvx llmsdottxt-mcp scan      # index the current project's dependencies
@@ -26,37 +15,11 @@ uvx llmsdottxt-mcp serve     # start the MCP server on stdio
 uvx llmsdottxt-mcp doctor    # diagnose paths, write access, registry connectivity
 ```
 
-Add it to an MCP client (e.g. Claude Code) as a stdio server running `llmsdottxt-mcp serve`.
+Add it to an MCP client (e.g. Claude Code) as a stdio server running `llmsdottxt-mcp serve`. Four ecosystems work end-to-end: Python (`pyproject.toml`, `requirements.txt`), Node (`package.json`), Rust (`Cargo.toml`), and Go (`go.mod`).
 
-## MCP Surface
+## Known Limitations
 
-**Tools:** `index_deps`, `search`, `browse`, `status`.
-**Resources:** `llmstxt://packages`, `llmstxt://package/{ecosystem}/{name}`.
-**Prompts:** `find_docs_for_import`.
-
-## Configuration
-
-Everything is convention-based; override via `LLMSTXT_*` env vars (see [`.env.example`](./.env.example)). The index lives in `~/.llms.txt.d/`.
-
-## Ecosystems
-
-Four ecosystems are supported end-to-end — each pairs a manifest scanner with a registry resolver:
-
-| Ecosystem | Manifest(s) | Registry | Docs source |
-| --- | --- | --- | --- |
-| Python | `pyproject.toml`, `requirements.txt` | PyPI JSON API | project URLs / homepage |
-| Node | `package.json` | npm registry | homepage |
-| Rust | `Cargo.toml` | crates.io API | `documentation` / homepage |
-| Go | `go.mod` | proxy.golang.org | pkg.go.dev |
-
-Add an ecosystem by dropping a `BaseScanner` and `BaseResolver` into their registries — see [`ROADMAP.md`](./ROADMAP.md).
-
-## Development
-
-```sh
-uv sync --all-groups
-uv run ruff check && uv run ty check && uv run basedpyright
-uv run lint-imports && uv run pytest -n auto
-```
-
-See [`AGENTS.md`](./AGENTS.md) for architecture and conventions.
+- Pre-1.0: MCP tool names and response schemas may change.
+- A package with no discoverable `llms.txt` is a miss -- there is no HTML-scraping fallback.
+- Docs hosts behind an unsolvable bot challenge (Cloudflare, DataDome, Imperva, AWS WAF, Akamai, Sucuri) are reported as **blocked**, not indexed -- passing them needs a real browser.
+- Python 3.14+ only.

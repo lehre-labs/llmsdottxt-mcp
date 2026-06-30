@@ -5,7 +5,7 @@ Read-only `llmstxt://` resource language.
 ## Language
 
 **Resource**:
-A read-only projection of the index exposed as `llmstxt://` URIs — the package list (`llmstxt://packages`) or a single Index Entry (`llmstxt://package/{ecosystem}/{name}`).
+A read-only projection of the index exposed as `llmstxt://` URIs -- the package list (`llmstxt://packages`) or a single Index Entry (`llmstxt://package/{ecosystem}/{name}`).
 _Avoid_: resource handler, endpoint, URI handler
 
 **Resource Registry**:

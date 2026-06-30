@@ -113,7 +113,7 @@ async def browse(
     try:
         return await pipeline.get_section(package, section, entry.ecosystem.value)
     except SectionNotFoundError as exc:
-        available = ", ".join(exc.available[:30]) or "(none — full text has no page headings)"
+        available = ", ".join(exc.available[:30]) or "(none -- full text has no page headings)"
         return (
             f"No page titled '{section}' in '{package}'. Available pages: {available}. "
             f"Pass one of these as the section, or call browse('{package}') for the TOC."

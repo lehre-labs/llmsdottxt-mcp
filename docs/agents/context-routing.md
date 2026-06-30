@@ -25,8 +25,8 @@ Read the narrowest context that explains the code you are changing.
 
 ## Focused Notes
 
-- Model / string-alias changes: read [`typed-python.md`](./typed-python.md), then `models/AGENTS.md`.
-- Architecture/import questions: `.agents/rules/architecture.md`.
+- Model / string-alias changes: read the **Typed boundaries** note in [`engineering.md`](./engineering.md), then `models/AGENTS.md`.
+- Architecture/import questions: the **Layered architecture** note in [`AGENTS.md`](../../AGENTS.md), enforced by `uv run lint-imports`.
 
 ## Rule
 

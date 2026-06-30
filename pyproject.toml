@@ -39,7 +39,6 @@ llmsdottxt-mcp = "llmsdottxt_mcp.cli:main"
 Homepage = "https://github.com/lehre-labs/llmsdottxt-mcp"
 Issues = "https://github.com/lehre-labs/llmsdottxt-mcp/issues"
 Source = "https://github.com/lehre-labs/llmsdottxt-mcp"
-Changelog = "https://github.com/lehre-labs/llmsdottxt-mcp/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
@@ -75,7 +74,7 @@ where = ["src"]
 package = true
 
 # =============================================================================
-# Ruff — linter & formatter
+# Ruff -- linter & formatter
 # =============================================================================
 
 [tool.ruff]
@@ -95,7 +94,7 @@ select = [
     "RUF",           # ruff-specific
     "PL",            # pylint
     "PIE",           # flake8-pie
-    "T20",           # flake8-print (no stray prints — stdout is the MCP channel)
+    "T20",           # flake8-print (no stray prints -- stdout is the MCP channel)
     "ISC",           # implicit-str-concat
     "ASYNC",         # flake8-async
     "PYI",           # flake8-pyi
@@ -106,21 +105,21 @@ select = [
     "PT",            # flake8-pytest-style
 ]
 ignore = [
-    "E501",     # line-too-long — handled by formatter
-    "ISC001",   # implicit-str-concat — formatter handles this
-    "PLR2004",  # magic-value-comparison — too noisy
+    "E501",     # line-too-long -- handled by formatter
+    "ISC001",   # implicit-str-concat -- formatter handles this
+    "PLR2004",  # magic-value-comparison -- too noisy
     "PLR0913",  # too-many-arguments
     "EM101",    # raw-string-in-exception
     "EM102",    # f-string-in-exception
-    "ASYNC109", # async-function-with-timeout — false positive (passed through to httpx)
-    "ASYNC240", # pathlib-in-async — local index IO is fast and intentional
+    "ASYNC109", # async-function-with-timeout -- false positive (passed through to httpx)
+    "ASYNC240", # pathlib-in-async -- local index IO is fast and intentional
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["N", "F401"]
 "src/llmsdottxt_mcp/cli.py" = ["T20", "PLC0415"]   # rich/typer output; lazy server import
 # Pydantic and FastMCP resolve annotations at runtime, so field/return types
-# cannot live in a TYPE_CHECKING block — disable flake8-type-checking there.
+# cannot live in a TYPE_CHECKING block -- disable flake8-type-checking there.
 "src/llmsdottxt_mcp/models/*.py" = ["TC001", "TC002", "TC003"]
 "src/llmsdottxt_mcp/config/settings.py" = ["TC001"]
 "src/llmsdottxt_mcp/tools/*.py" = ["TC001", "TC002", "TC003"]
@@ -175,7 +174,7 @@ exclude_lines = [
 format-command = "uv run ruff format --stdin-filename {filename} -"
 
 # =============================================================================
-# ty — static type checking
+# ty -- static type checking
 # =============================================================================
 
 [tool.ty.environment]
@@ -186,7 +185,7 @@ root = ["./src"]
 include = ["src", "tests"]
 
 # =============================================================================
-# basedpyright — strict static type checking
+# basedpyright -- strict static type checking
 # =============================================================================
 
 [tool.basedpyright]
@@ -195,7 +194,7 @@ pythonVersion = "3.14"
 typeCheckingMode = "standard"
 
 # =============================================================================
-# import-linter — layered architecture contract
+# import-linter -- layered architecture contract
 # =============================================================================
 
 [tool.importlinter]
@@ -217,7 +216,7 @@ layers = [
 ]
 
 # =============================================================================
-# Commitizen — Conventional Commits
+# Commitizen -- Conventional Commits
 # =============================================================================
 
 [tool.commitizen]
@@ -227,14 +226,14 @@ version_files = ["pyproject.toml:version"]
 tag_format = "v$version"
 
 # =============================================================================
-# Bandit — security linting
+# Bandit -- security linting
 # =============================================================================
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "build", "dist"]
 
 # =============================================================================
-# Deptry — dependency hygiene
+# Deptry -- dependency hygiene
 # =============================================================================
 
 [tool.deptry]

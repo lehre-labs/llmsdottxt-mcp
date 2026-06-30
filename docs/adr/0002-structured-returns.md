@@ -4,4 +4,4 @@ The initial plan returned markdown strings from tools. We switched to typed Pyda
 
 ## Consequences
 
-Reliable agent parsing and validation. Model field/return types must be runtime-importable — `flake8-type-checking` is disabled for model and FastMCP-boundary modules.
+Reliable agent parsing and validation. Model field/return types must be runtime-importable -- `flake8-type-checking` is disabled for model and FastMCP-boundary modules.

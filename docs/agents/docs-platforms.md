@@ -35,9 +35,9 @@ llmsdottxt-mcp auto-discovers and fetches `/llms.txt` and `/llms-full.txt` from 
 
 Not platforms, but useful for manual setup.
 
-- [llmstxt.new](https://llmstxt.new) (Firecrawl) — crawls any URL, AI-generates both files. Open source.
-- [Mintlify Generator](https://llms-txt-generator.mintlify.review/) — paste URL, generates starter from site structure. Free.
-- [LLMTEXT](https://parallel.ai/blog/LLMTEXT-for-llmstxt) (Parallel.ai) — sitemap-based, includes validator. Open source.
+- [llmstxt.new](https://llmstxt.new) (Firecrawl) -- crawls any URL, AI-generates both files. Open source.
+- [Mintlify Generator](https://llms-txt-generator.mintlify.review/) -- paste URL, generates starter from site structure. Free.
+- [LLMTEXT](https://parallel.ai/blog/LLMTEXT-for-llmstxt) (Parallel.ai) -- sitemap-based, includes validator. Open source.
 
 ## CMS Plugins
 
@@ -51,7 +51,7 @@ Not platforms, but useful for manual setup.
 To add platform detection (promoting from [~] to [x]):
 
 1. Add the enum value in `src/llmsdottxt_mcp/models/strings.py` (`Platform`).
-2. Create a `BasePlatform` subclass in `src/llmsdottxt_mcp/platforms/` — override `from_response` and/or `from_url`.
+2. Create a `BasePlatform` subclass in `src/llmsdottxt_mcp/platforms/` -- override `from_response` and/or `from_url`.
 3. Register it in `src/llmsdottxt_mcp/platforms/registry.py` at the right priority position.
 4. Add tests in `tests/test_platforms.py` following the `httpx_mock` pattern.
 

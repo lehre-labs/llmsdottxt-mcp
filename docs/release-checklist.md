@@ -25,7 +25,7 @@ uv build
 
 ## Release Verification
 
-- Confirm `pyproject.toml` version and `CHANGELOG.md` describe the release.
+- Confirm `pyproject.toml` version and the GitHub release notes describe the release.
 - Confirm examples and docs contain no fetched third-party content, private URLs, or tokens.
 - Tag with `vMAJOR.MINOR.PATCH`.
 - Confirm GitHub Actions published via PyPI Trusted Publishing.

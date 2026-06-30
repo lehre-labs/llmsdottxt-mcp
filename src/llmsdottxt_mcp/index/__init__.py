@@ -2,11 +2,11 @@
 
 The public API is re-exported here; submodules split the concerns:
 
-- ``_connection`` — connection lifecycle, migrations, legacy JSON import
-- ``_sql`` — low-level, connection-parameterized SQL helpers
-- ``_entries`` — entry CRUD, ranked search, summaries, ``clear_all``
-- ``_meta`` — index metadata persistence
-- ``_cache`` — gzip full-text cache on disk
+- ``_connection`` -- connection lifecycle, migrations, legacy JSON import
+- ``_sql`` -- low-level, connection-parameterized SQL helpers
+- ``_entries`` -- entry CRUD, ranked search, summaries, ``clear_all``
+- ``_meta`` -- index metadata persistence
+- ``_cache`` -- gzip full-text cache on disk
 """
 
 from __future__ import annotations

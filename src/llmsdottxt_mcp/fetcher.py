@@ -46,7 +46,7 @@ def _shares_repo_host(docs_host: str, repository_url: str | None) -> bool:
     """True when the docs host is the same host as the source repository.
 
     If docs and source share a host, the "docs" URL is really a code-forge repo
-    page — GitHub, GitLab, Gitea, Codeberg, SourceHut, or any self-hosted forge —
+    page -- GitHub, GitLab, Gitea, Codeberg, SourceHut, or any self-hosted forge --
     whose root never carries a single package's llms.txt. Comparing against the
     repo host the resolver already extracted beats hand-maintaining a forge-domain
     list that can never be exhaustive.

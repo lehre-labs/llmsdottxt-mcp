@@ -1,6 +1,6 @@
 # Prompts Package
 
-Reusable documentation-workflow prompts. Standalone — they describe tool sequencing.
+Reusable documentation-workflow prompts. Standalone -- they describe tool sequencing.
 
 ## Conventions
 

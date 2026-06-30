@@ -1,4 +1,4 @@
-"""Persisted index models — the on-disk shape of the local index."""
+"""Persisted index models -- the on-disk shape of the local index."""
 
 from __future__ import annotations
 

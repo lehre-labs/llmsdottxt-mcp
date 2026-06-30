@@ -18,5 +18,5 @@ Include the affected version or commit, reproduction steps, and expected impact.
 
 - All fetched `llms.txt` / `llms-full.txt` content is untrusted: fetched over http(s) only, size-capped, never executed.
 - All HTTP goes through `llmsdottxt_mcp.http` for retry and rate-limiting; document bodies are never logged.
-- The cache under `~/.llms.txt.d/` holds third-party docs — it is gitignored and must never be committed.
+- The cache under `~/.llms.txt.d/` holds third-party docs -- it is gitignored and must never be committed.
 - stdout is the MCP stdio channel; library code never prints. Logs are JSON on stderr.

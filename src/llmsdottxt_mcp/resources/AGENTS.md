@@ -9,7 +9,7 @@ Read-only `llmstxt://` context resources backed by the index. No side effects.
 
 ## Gotchas
 
-- Resource return annotations are evaluated at runtime by FastMCP — keep model imports runtime.
+- Resource return annotations are evaluated at runtime by FastMCP -- keep model imports runtime.
 
 ## Out Of Scope
 

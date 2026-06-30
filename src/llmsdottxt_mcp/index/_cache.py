@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import gzip
-from pathlib import Path  # noqa: TC003 — return annotation needs it at runtime-readable scope
+from pathlib import Path  # noqa: TC003 -- return annotation needs it at runtime-readable scope
 
 from llmsdottxt_mcp.config import settings
 

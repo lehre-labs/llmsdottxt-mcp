@@ -93,7 +93,7 @@ def status() -> None:
     console.print(f"Cache:      {index.total_cache_size() / 1024 / 1024:.1f} MB")
     console.print(f"Last scan:  {meta.last_scan or 'never'}")
 
-    # Plain print (not Rich) so tabs stay literal and lines are never wrapped —
+    # Plain print (not Rich) so tabs stay literal and lines are never wrapped --
     # keeps the rows consumable by fzf/grep/awk under computer use.
     for s in summaries:
         size = f"{s.full_text_size / 1024 / 1024:.1f}MB" if s.has_full_text else "-"
@@ -151,7 +151,7 @@ async def _run_doctor() -> bool:
     packages = await index.list_all()
     checks.append(("packages indexed", True, str(len(packages))))
 
-    # One tab-separated line per check (name<TAB>ok|fail<TAB>detail) — grep/fzf-friendly.
+    # One tab-separated line per check (name<TAB>ok|fail<TAB>detail) -- grep/fzf-friendly.
     for name, passed, detail in checks:
         print("\t".join((name, "ok" if passed else "fail", detail)))
 

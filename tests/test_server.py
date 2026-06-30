@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path  # noqa: TC003 — used by fixture annotations
+from pathlib import Path  # noqa: TC003 -- used by fixture annotations
 from unittest import mock
 
 from fastmcp.exceptions import ToolError
