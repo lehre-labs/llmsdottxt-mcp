@@ -1,6 +1,6 @@
 # Models Context
 
-Typed shapes used across the server — domain, persisted, and response models.
+Typed shapes used across the server -- domain, persisted, and response models.
 
 ## Language
 

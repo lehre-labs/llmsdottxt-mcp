@@ -1,6 +1,6 @@
 # Scanners Package
 
-Extract direct dependencies from project manifests. Pure parsing — no network.
+Extract direct dependencies from project manifests. Pure parsing -- no network.
 
 ## Conventions
 

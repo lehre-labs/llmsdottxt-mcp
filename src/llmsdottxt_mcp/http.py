@@ -43,7 +43,7 @@ class _TransientHTTPError(Exception):
 def _challenge_vendor(response: httpx.Response) -> str | None:
     """Return the bot-wall vendor if ``response`` is an unsolvable challenge, else None.
 
-    Cloudflare's ``cf-mitigated`` header is authoritative — present only when CF
+    Cloudflare's ``cf-mitigated`` header is authoritative -- present only when CF
     actively challenged/blocked the request. Other WAFs are matched by their
     dedicated header on a blocking status, which keeps genuine origin 429/503
     rate limits (no such header) on the retry path.
@@ -73,7 +73,7 @@ def _retry_after_seconds(response: httpx.Response) -> float | None:
     try:
         return min(float(raw), MAX_RETRY_AFTER_SECONDS)
     except ValueError:
-        return None  # HTTP-date form — fall back to exponential backoff
+        return None  # HTTP-date form -- fall back to exponential backoff
 
 
 _EXPONENTIAL = wait_exponential(multiplier=0.5, min=0.5, max=5)
@@ -147,6 +147,6 @@ async def stream(
     headers: dict[str, str] | None = None,
     timeout: float | None = None,
 ) -> AsyncGenerator[httpx.Response]:
-    """Rate-limited streaming GET context manager (no retry — body is consumed once)."""
+    """Rate-limited streaming GET context manager (no retry -- body is consumed once)."""
     async with _limiter(), client.stream("GET", url, headers=headers, timeout=timeout) as response:
         yield response

@@ -13,7 +13,7 @@ SQLite's built-in full-text search engine. The `index_entry_fts` virtual table h
 _Avoid_: search index, text index
 
 **Index Meta**:
-Key/value metadata about the index itself — version, last scan timestamp, project root, ecosystem list, package counts. Persisted in the `index_meta` table.
+Key/value metadata about the index itself -- version, last scan timestamp, project root, ecosystem list, package counts. Persisted in the `index_meta` table.
 _Avoid_: index config, index settings, metadata
 
 **Full-Text Cache**:

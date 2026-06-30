@@ -1,7 +1,7 @@
 """Structured logging setup.
 
 Logs are emitted as JSON on **stderr**. stdout is reserved for the MCP stdio
-protocol — writing logs there would corrupt the transport.
+protocol -- writing logs there would corrupt the transport.
 """
 
 from __future__ import annotations

@@ -12,7 +12,7 @@
 
 ## Changes Made
 
-<!-- Bullet out the specific changes. Be precise — not "updated files" but "Added rate limiting to the /fetch endpoint." -->
+<!-- Bullet out the specific changes. Be precise -- not "updated files" but "Added rate limiting to the /fetch endpoint." -->
 
 -
 

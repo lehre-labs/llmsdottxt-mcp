@@ -2,7 +2,7 @@
 
 These assert two things per command: the documented output shape, and that the
 global index connection is closed afterwards. The latter guards the CLI-hang
-regression — aiosqlite's connection thread is non-daemon, so an un-closed
+regression -- aiosqlite's connection thread is non-daemon, so an un-closed
 connection would prevent the process from exiting.
 """
 

@@ -122,6 +122,6 @@ def test_retry_after_seconds_parses_and_caps() -> None:
 
     assert http._retry_after_seconds(resp("3")) == 3.0
     assert http._retry_after_seconds(resp("999")) == MAX_RETRY_AFTER_SECONDS
-    # HTTP-date form is not numeric — fall back to exponential backoff.
+    # HTTP-date form is not numeric -- fall back to exponential backoff.
     assert http._retry_after_seconds(resp("Wed, 21 Oct 2026 07:28:00 GMT")) is None
     assert http._retry_after_seconds(httpx.Response(429)) is None

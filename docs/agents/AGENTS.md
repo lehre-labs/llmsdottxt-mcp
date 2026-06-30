@@ -23,7 +23,7 @@ Pick one type per page: tutorial, how-to, reference, or explanation.
 - Keep titles literal; use canonical terms from the relevant `CONTEXT.md`.
 - Link to official docs instead of copying them; record source URLs on the page that depends on them.
 - Date only volatile claims (current library behavior, tested endpoints).
-- Document the code that exists or an accepted decision — not speculative architecture.
+- Document the code that exists or an accepted decision -- not speculative architecture.
 
 ## Project Checks
 

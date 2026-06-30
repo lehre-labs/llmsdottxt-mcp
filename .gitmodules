@@ -1,0 +1,3 @@
+[submodule ".xebec"]
+	path = .xebec
+	url = https://github.com/lehre-labs/xebec

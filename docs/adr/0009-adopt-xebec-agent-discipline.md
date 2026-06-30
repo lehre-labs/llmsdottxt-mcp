@@ -1,0 +1,11 @@
+# Adopt xebec as the agent-discipline submodule
+
+Status: accepted
+
+The project's agent tooling -- engineering skills, post-edit lint hooks, the behavioral contract, and the operational context the skills read -- had drifted into in-repo copies (`.agents/skills/`, `.agents/rules/`, a `.commandcode/` taste store) that no other Lehre Labs experiment could share and that decayed without anyone noticing. Lehre Labs maintains this tooling centrally as **xebec** (`github.com/lehre-labs/xebec`); keeping a private fork meant manual catch-up on every fix and a contract that read like behavior-steering prompt debt rather than concrete project facts.
+
+We vendor xebec as a git submodule at `.xebec` and wire it in, but **not** via xebec's stock `install.sh` -- that symlinks the whole `.agents/` into the submodule, and we want `.agents/` to stay the canonical repo directory with `.claude/` symlinking into it. So the wiring is tailored: `.agents/skills` and `.agents/hooks` symlink into `.xebec/.agents/`, `.claude/{skills,hooks}` symlink into `.agents/`, and `.mcp.json` symlinks to `.xebec/.mcp.json`. Updates flow with `git submodule update --remote .xebec`. The 14 xebec skills replace the old in-repo set; the `setup-lehre-labs-experiment` skill regenerated `IDEA.md`, `AGENTS.md`, and `README.md` from the canonical templates. The 12 `.agents/rules/` files were dropped and their concrete, checkable content folded into `docs/agents/engineering.md`, which the slimmed `AGENTS.md` points to -- the contract stays lean and template-faithful, with enforcement living in `pyproject.toml` tooling (`ruff`, `ty`, `basedpyright`, `import-linter`, `bandit`).
+
+## Consequences
+
+Agent tooling is now shared and updatable in one pull instead of hand-maintained, and `AGENTS.md` is a lean pointer rather than a sprawling rulebook. The trade-offs: a plain `git clone` (without `--recurse-submodules`) leaves `.xebec` empty and the skill/hook symlinks dangling, so onboarding now documents the submodule step; the symlink topology assumes a POSIX filesystem; and the `.mcp.json` servers have external prerequisites (`pgr` at `~/.cargo/bin/pgr`, tinyfish over HTTP) that are no-ops when absent. We kept the repo's own `.github/` issue and PR templates rather than xebec's, since the existing issue *forms* are richer than xebec's Markdown defaults.
